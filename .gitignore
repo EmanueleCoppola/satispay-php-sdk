@@ -1,0 +1,13 @@
+# dependencies
+/vendor
+composer.lock
+
+# ide/editor
+/.idea
+
+# examples
+/examples/GAgent/_authentication.json
+/examples/GBusiness/_authentication.json
+
+# os
+.DS_Store

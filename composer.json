@@ -1,0 +1,43 @@
+{
+    "name": "satispay/satispay-php-sdk",
+    "description": "Satispay API PHP SDK",
+    "license": "MIT",
+    "keywords": [
+        "satispay",
+        "GBusiness",
+        "GAgent",
+        "api",
+        "php",
+        "sdk"
+    ],
+    "homepage": "https://www.satispay.com",
+    "authors": [
+        {
+            "name": "Satispay",
+            "homepage": "https://www.satispay.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "php-http/discovery": "*",
+        "psr/http-client-implementation": "*",
+        "psr/http-message": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Satispay\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false,
+            "kylekatarnls/update-helper": true
+        }
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^7.0"
+    }
+}
