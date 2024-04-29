@@ -16,7 +16,6 @@ use Satispay\SatispayClient;
 use Satispay\SatispayResponse;
 
 class HTTPService extends BaseService {
-    
     /**
      * The base URL, it may vary based on the targeted environment.
      *
@@ -147,10 +146,7 @@ class HTTPService extends BaseService {
         }
 
         if ($signed === true) {
-            $headers = array_merge(
-                $headers,
-                $this->signedHeaders($url, $path, $method, $body)
-            );
+            $headers = $this->signedHeaders($url, $path, $method, $body, $headers);
         }
 
         $request = $request->withBody(
@@ -171,42 +167,40 @@ class HTTPService extends BaseService {
      * @param string $path The path portion of the URL.
      * @param string $method The HTTP method (e.g., GET, POST).
      * @param string $body The body of the HTTP request.
+     * @param array $headers The request headers.
      *
      * @return array
      */
-    private function signedHeaders(string $url, string $path, string $method, string $body)
+    private function signedHeaders(string $url, string $path, string $method, string $body, array $headers = [])
     {
-        $signatureHeaders = [];
+        // these headers will be explicitely sent by the HTTP client as headers
+        // they will be used for both signature and the request
+        // $headers = []; <- inherited from the parameter
 
-        // host
-        $signature = '(request-target): ' . strtolower($method) . ' ' . $path . "\n";
-        $signatureHeaders[] = '(request-target)';
+        // these headers will not be explicitely sent by the client
+        // they will be only used for signature generation
+        $signatureHeaders         = [];
+        $signatureHeadersSequence = [];
 
-        $signature .= 'host: ' . parse_url($url, PHP_URL_HOST) . "\n";
-        $signatureHeaders[] = 'Host';
+        $signatureHeaders['(request-target)'] = strtolower($method) . ' ' . $path;
+        $signatureHeaders['Host'] = parse_url($url, PHP_URL_HOST);
 
-        // -- content-*
+        $headers['Date'] = date('r');
+        $headers['Digest'] = 'SHA-256=' . base64_encode(hash('sha256', $body, true));
+
         if (!empty($body)) {
-            $signature .= 'content-type: application/json' . "\n";
-            $signatureHeaders[] = 'Content-Type';
-
-            $signature .= 'content-length: ' . strlen($body) . "\n";
-            $signatureHeaders[] = 'Content-Length';
+            $headers['Content-Type'] = 'application/json';
+            $headers['Content-Length'] = strlen($body);
         }
 
-        // -- digest
-        $digest = base64_encode(hash('sha256', $body, true));
-        $headers['Digest'] = 'SHA-256=' . $digest;
-        $signature .= 'digest: SHA-256=' . $digest . "\n";
+        $signature = [];
 
-        $signatureHeaders[] = 'Digest';
+        foreach([...$headers, ...$signatureHeaders] as $header => $value) {
+            $signature[]                = mb_strtolower($header) . ': ' . $value;
+            $signatureHeadersSequence[] = $header;
+        }
 
-        // -- date
-        $date = date('r');
-        $headers['Date'] = $date;
-        $signature .= 'date: ' . $date;
-
-        $signatureHeaders[] = 'Date';
+        $signature = implode(PHP_EOL, $signature);
 
         // -- authorization
         $base64SignedSignature = $this->context->authentication->sign($signature);
@@ -215,19 +209,16 @@ class HTTPService extends BaseService {
             $base64SignedSignature = base64_encode($base64SignedSignature);
         }
 
-        $signatureHeaders = implode(' ', $signatureHeaders);
+        $signatureHeadersSequence = implode(' ', $signatureHeadersSequence);
 
-        $authorizationHeader = sprintf(
+        $headers['Authorization'] = sprintf(
             'Signature keyId="%s", algorithm="rsa-sha256", headers="%s", signature="%s"',
             $this->context->authentication->keyId,
-            $signatureHeaders,
+            $signatureHeadersSequence,
             $base64SignedSignature
         );
 
-        return [
-            ...$headers,
-            'Authorization' => $authorizationHeader
-        ];
+        return $headers;
     }
 
     /**
