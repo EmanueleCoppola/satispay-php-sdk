@@ -195,7 +195,7 @@ class HTTPService extends BaseService {
 
         $signature = [];
 
-        // fyi: using array_merge instead of spread because spread is not supported in PHP >= 7.4
+        // fyi: using array_merge instead of spread because spread is not supported in PHP < 7.4
         foreach(array_merge($headers, $signatureHeaders) as $header => $value) {
             $signature[]                = mb_strtolower($header) . ': ' . $value;
             $signatureHeadersSequence[] = $header;
