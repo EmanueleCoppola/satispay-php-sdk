@@ -22,6 +22,8 @@ class SatispayClient {
         'private_key' => null,
         'key_id' => null,
 
+        'passphrase' => null,
+
         //
         'sandbox' => false,
 
@@ -86,7 +88,8 @@ class SatispayClient {
             $this,
             $this->config['public_key'],
             $this->config['private_key'],
-            $this->config['key_id']
+            $this->config['key_id'],
+            $this->config['passphrase']
         );
 
         $this->boot();

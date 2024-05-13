@@ -21,7 +21,7 @@ class AuthenticationService extends BaseService {
     /**
      * The private key used to sign the requests.
      *
-     * @var string|null
+     * @var OpenSSLAsymmetricKey|string|null
      */
     public $privateKey;
 
@@ -48,15 +48,17 @@ class AuthenticationService extends BaseService {
 
         $publicKey = null,
         $privateKey = null,
-        $keyId = null
+        $keyId = null,
+
+        $passphrase = null
     ) {
+        $this->ensureOpenSslExtensionLoaded();
+    
         $this->context = $context;
 
         $this->publicKey = $publicKey;
-        $this->privateKey = $privateKey;
+        $this->privateKey = openssl_pkey_get_private($privateKey, $passphrase);
         $this->keyId = $keyId;
-
-        $this->ensureOpenSslExtensionLoaded();
     }
 
     /**
