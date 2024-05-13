@@ -33,6 +33,14 @@ class AuthenticationService extends BaseService {
     public $keyId;
 
     /**
+     * The passphrase that must be used for both RSA generation and reading.
+     * This parameter is optional.
+     *
+     * @var string|null
+     */
+    public $passphrase;
+
+    /**
      * AuthenticationService constructor.
      *
      * @param SatispayClient $context The SatispayClient context for the service.
@@ -40,6 +48,7 @@ class AuthenticationService extends BaseService {
      * @param string $publicKey The already generated public key.
      * @param string $privateKey The already generated private key.
      * @param string $keyId The already generated KeyID.
+     * @param string $passphrase The optional RSA passphrase.
      *
      * @throws SatispayException If OpenSSL extension is not loaded.
      */
@@ -56,8 +65,11 @@ class AuthenticationService extends BaseService {
     
         $this->context = $context;
 
+        $this->passphrase = $passphrase;
+
         $this->publicKey = $publicKey;
-        $this->privateKey = openssl_pkey_get_private($privateKey, $passphrase);
+        $this->privateKey = $privateKey ? openssl_pkey_get_private($privateKey, !$this->passphrase ? '' : $this->passphrase) : null;
+
         $this->keyId = $keyId;
     }
 
@@ -99,7 +111,7 @@ class AuthenticationService extends BaseService {
                 'private_key_bits' => 4096
             ]);
 
-            openssl_pkey_export($pkeyResource, $newPrivateKey);
+            openssl_pkey_export($pkeyResource, $newPrivateKey, $this->passphrase);
 
             $pkeyResourceDetails = openssl_pkey_get_details($pkeyResource);
 
