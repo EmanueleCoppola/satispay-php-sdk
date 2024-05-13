@@ -5,6 +5,9 @@ require_once('../../vendor/autoload.php');
 use Satispay\SatispayGBusinessClient;
 
 $satispayGBusinessClient = new SatispayGBusinessClient([
+    // The passphrase is needed only if the RSA has been generated with the -passout parameter
+    // 'passphrase' => 'my-passphrase',
+
     'sandbox' => true
 ]);
 

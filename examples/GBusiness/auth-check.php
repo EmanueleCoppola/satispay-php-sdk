@@ -23,7 +23,7 @@ $response = $satispayGBusinessClient->authentication->test();
 $res = $response->toArray();
 
 if (in_array($res['authentication_key']['role'], ['ONLINE_SHOP', 'DEVICE'])) {
-    echo 'Authentication successfull! ' . $response->getCid();
+    echo 'Authentication successfull! cid: ' . $response->getCid();
 } else {
     echo 'Authentication not successfull!';
 }
