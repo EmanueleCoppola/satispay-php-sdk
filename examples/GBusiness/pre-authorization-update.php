@@ -13,6 +13,9 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
     'private_key' => $authentication['private_key'],
     'key_id' => $authentication['key_id'],
 
+    // The passphrase is needed only if the RSA has been generated with the -passout parameter
+    // 'passphrase' => 'my-passphrase',
+
     'sandbox' => true
 ]);
 
