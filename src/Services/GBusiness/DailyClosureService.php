@@ -7,6 +7,11 @@ use EmanueleCoppola\Satispay\Exceptions\SatispayResponseException;
 use EmanueleCoppola\Satispay\SatispayResponse;
 use EmanueleCoppola\Satispay\Services\BaseService;
 
+/**
+ * Class DailyClosureService
+ *
+ * Service class for retrieving daily closures using the Satispay GBusiness API.
+ */
 class DailyClosureService extends BaseService {
 
     /**

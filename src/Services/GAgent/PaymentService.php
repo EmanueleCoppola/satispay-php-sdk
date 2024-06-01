@@ -8,7 +8,7 @@ use EmanueleCoppola\Satispay\Services\BaseService;
 /**
  * Class PaymentService
  *
- * Service class for managing payments using the Satispay GBusiness API.
+ * Service class for managing Connect payments using the Satispay GBusiness API.
  */
 class PaymentService extends BaseService {
 

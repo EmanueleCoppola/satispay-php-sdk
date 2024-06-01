@@ -7,6 +7,11 @@ use EmanueleCoppola\Satispay\Exceptions\SatispayResponseException;
 use EmanueleCoppola\Satispay\SatispayResponse;
 use EmanueleCoppola\Satispay\Services\BaseService;
 
+/**
+ * Class ConsumerService
+ *
+ * Service class for retrieving consumers using the Satispay GBusiness API.
+ */
 class ConsumerService extends BaseService {
 
     /**
