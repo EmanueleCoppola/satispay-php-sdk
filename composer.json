@@ -39,6 +39,7 @@
         }
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^7.0"
+        "guzzlehttp/guzzle": "^7.0",
+        "phpseclib/phpseclib": "~3.0"
     }
 }
