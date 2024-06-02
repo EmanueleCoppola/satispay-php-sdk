@@ -8,22 +8,11 @@ use EmanueleCoppola\Satispay\Exceptions\SatispayException;
  * Class AuthenticationService
  *
  * Service class to authenticate to the APIs and to sign authentication strings.
+ *
+ * @property-read string|null $publicKey
+ * @property-read string|null $privateKey
  */
 class AuthenticationService extends BaseService {
-    
-    /**
-     * The public key saved on the Satispay servers.
-     *
-     * @var string|null
-     */
-    public $publicKey;
-
-    /**
-     * The private key used to sign the requests.
-     *
-     * @var OpenSSLAsymmetricKey|string|null
-     */
-    public $privateKey;
 
     /**
      * The key ID given by Satispay.
@@ -33,130 +22,56 @@ class AuthenticationService extends BaseService {
     public $keyId;
 
     /**
-     * The passphrase that must be used for both RSA generation and reading.
-     * This parameter is optional.
-     *
-     * @var string|null
-     */
-    public $passphrase;
-
-    /**
      * AuthenticationService constructor.
      *
      * @param SatispayClient $context The SatispayClient context for the service.
-     *
-     * @param string $publicKey The already generated public key.
-     * @param string $privateKey The already generated private key.
      * @param string $keyId The already generated KeyID.
-     * @param string $passphrase The optional RSA passphrase.
-     *
-     * @throws SatispayException If OpenSSL extension is not loaded.
      */
     public function __construct(
         $context = null,
-
-        $publicKey = null,
-        $privateKey = null,
-        $keyId = null,
-
-        $passphrase = null
+        $keyId = null
     ) {
-        $this->ensureOpenSslExtensionLoaded();
-    
         $this->context = $context;
-
-        $this->passphrase = $passphrase;
-
-        $this->publicKey = $publicKey;
-        $this->privateKey = $privateKey ? openssl_pkey_get_private($privateKey, !$this->passphrase ? '' : $this->passphrase) : null;
-
         $this->keyId = $keyId;
     }
 
     /**
-     * Check if the OpenSSL extension is actively loaded in the PHP environment.
+     * Magic getter to retrieve the publicKey and privateKey from the context's RSA service.
      *
-     * @throws SatispayException If the OpenSSL extension is not loaded.
+     * @param string $name The name of the property.
      *
-     * @return void
+     * @return mixed The value of the property.
      */
-    private function ensureOpenSslExtensionLoaded()
+    public function __get($name)
     {
-        if (!extension_loaded('openssl')) {
-            throw new SatispayException("OpenSSL is not installed!");
+        if (
+            $name === 'publicKey' ||
+            $name === 'privateKey'
+        ) {
+            return $this->context->rsa_service->{$name};
         }
-    }
 
-    /**
-     * Generate a pair of RSA keys if not already generated.
-     *
-     * This method ensures the generation of a new pair of RSA keys,
-     * consisting of a public key and a private key, only if they
-     * have not been generated yet.
-     *
-     * The generated keys will be of the following specifications:
-     * - Digest Algorithm: SHA-256
-     * - Private Key Bits: 4096
-     *
-     * After successful generation, the keys are assigned to the
-     * corresponding properties of the class.
-     *
-     * @return void
-     */
-    private function generateKeys()
-    {
-    	if (empty($this->publicKey) || empty($this->privateKey)) {
-            $pkeyResource = openssl_pkey_new([
-                'digest_alg' => 'sha256',
-                'private_key_bits' => 4096
-            ]);
-
-            openssl_pkey_export($pkeyResource, $newPrivateKey, $this->passphrase);
-
-            $pkeyResourceDetails = openssl_pkey_get_details($pkeyResource);
-
-            $newPublicKey = $pkeyResourceDetails['key'];
-
-            $this->publicKey = $newPublicKey;
-            $this->privateKey = $newPrivateKey;
-    	}
+        return $this->{$name};
     }
 
     /**
      * Check if the authentication parameters are set.
      *
      * This method verifies whether the necessary authentication parameters such as public key,
-     * private key, and key ID are set, indicating a possible successful authentication.
+     * private key, and keyId are set, indicating a possible successful authentication.
      * Returns true if all parameters are set, false otherwise.
      *
      * @return bool
      */
     public function ready()
     {
+        $publicKey = $this->publicKey;
+        $privateKey = $this->privateKey;
+        $keyId = $this->keyId;
+
         return !(
-            empty($this->publicKey) || empty($this->privateKey) || empty($this->keyId)
+            empty($publicKey) || empty($privateKey) || empty($keyId)
         );
-    }
-
-    /**
-     * Sign a string using the private key with SHA-256 algorithm.
-     *
-     * This method signs the given string using the class's private key
-     * and the SHA-256 hashing algorithm. The resulting signature is returned.
-     *
-     * @param string $string The string to be signed.
-     *
-     * @return string The generated signature.
-     */
-    public function sign(string $string)
-    {
-        openssl_sign($string, $signed, $this->privateKey, OPENSSL_ALGO_SHA256);
-
-        if (is_null($signed)) {
-            throw new SatispayException("Error signing data with the given private key.");
-        }
-
-        return $signed;
     }
 
     /**
@@ -173,12 +88,12 @@ class AuthenticationService extends BaseService {
      */
     public function authenticate($token, $headers = [])
     {
-        $this->generateKeys();
+        $this->context->rsa_service->generateKeys();
 
         $response = $this->context->http->post(
             '/g_business/v1/authentication_keys',
             [
-                'public_key' => $this->publicKey,
+                'public_key' => $this->context->rsa_service->publicKey,
                 'token' => $token
             ],
             false,

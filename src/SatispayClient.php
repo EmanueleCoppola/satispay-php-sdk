@@ -33,7 +33,10 @@ class SatispayClient {
         'sandbox' => false,
 
         //
-        'rsa_service' => null,
+        'rsa_service' => [
+            OpenSSL_RSAService::class,
+            SeclibRSAService::class
+        ],
 
         // HTTP
         'psr' => [],
@@ -93,28 +96,19 @@ class SatispayClient {
             $config
         );
 
+        $this->rsa_service = $this->resolveRSAService(
+            $this->config['rsa_service'],
+            $this->config['public_key'],
+            $this->config['private_key'],
+            $this->config['passphrase']
+        );
+
+        $this->authentication = new AuthenticationService($this, $this->config['key_id']);
+
         $this->http = new HTTPService(
             $this,
             $this->config['sandbox'] === true ? self::STAGING_BASE_URL : self::PRODUCTION_BASE_URL,
             $this->config['psr']
-        );
-
-        // RSA Service resolution
-        if (
-            $this->config['rsa_service'] &&
-            $this->config['rsa_service'] instanceof RSAServiceContract
-        ) {
-            $this->rsa_service = $this->config['rsa_service'];
-        } else {
-            $this->resolveRSAService();
-        }
-
-        $this->authentication = new AuthenticationService(
-            $this,
-            $this->config['public_key'],
-            $this->config['private_key'],
-            $this->config['key_id'],
-            $this->config['passphrase']
         );
 
         $this->boot();
@@ -134,24 +128,28 @@ class SatispayClient {
      *
      * @throws SatispayRSAException if non of the services is available.
      *
-     * @return void
+     * @return RSAServiceContract|void
      */
-    private function resolveRSAService()
+    private function resolveRSAService(
+        $RSAServices,
+        $publicKey = null,
+        $privateKey = null,
+        $passphrase = null
+    )
     {
-        foreach([OpenSSL_RSAService::class, SeclibRSAService::class] as $RSAservice) {
+        $RSAService = (array) $RSAServices;
+
+        foreach($RSAService as $RSAservice) {
 
             /** @var RSAServiceContract */
-            $RSAserviceInstance = new $RSAservice;
+            $RSAserviceInstance = new $RSAservice($publicKey, $privateKey, $passphrase);
 
             if ($RSAserviceInstance->isAvailable()) {
-                $this->rsa_service = $RSAserviceInstance;
-                break;
+                return $RSAserviceInstance;
             }
         }
 
-        if (!$this->rsa_service) {
-            throw new SatispayRSAException('No RSA Service available. Either install the OpenSSL PHP extension or the phpseclib 3 composer library.');
-        }
+        throw new SatispayRSAException('No RSA Service available. Either install the OpenSSL PHP extension or the phpseclib 3 composer library.');
     }
 
     /**
