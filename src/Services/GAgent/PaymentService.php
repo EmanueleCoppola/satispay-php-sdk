@@ -1,11 +1,17 @@
 <?php
 
-namespace Satispay\Services\GAgent;
+namespace EmanueleCoppola\Satispay\Services\GAgent;
 
-use Satispay\SatispayResponse;
-use Satispay\Services\BaseService;
+use EmanueleCoppola\Satispay\SatispayResponse;
+use EmanueleCoppola\Satispay\Services\BaseService;
 
+/**
+ * Class PaymentService
+ *
+ * Service class for managing payments using the Satispay GBusiness API.
+ */
 class PaymentService extends BaseService {
+
     /**
      * Create a new payment.
      *

@@ -1,8 +1,8 @@
 <?php
 
-namespace Satispay\Exceptions;
+namespace EmanueleCoppola\Satispay\Exceptions;
 
-use Satispay\SatispayResponse;
+use EmanueleCoppola\Satispay\SatispayResponse;
 
 /**
  * Class SatispayResponseException

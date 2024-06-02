@@ -1,13 +1,18 @@
 <?php
 
-namespace Satispay;
+namespace EmanueleCoppola\Satispay;
 
 use Psr\Http\Message\ResponseInterface;
-use Satispay\Exceptions\SatispayResponseException;
-use Satispay\Exceptions\UnsupportedMediaTypeException;
+use EmanueleCoppola\Satispay\Exceptions\SatispayResponseException;
+use EmanueleCoppola\Satispay\Exceptions\UnsupportedMediaTypeException;
 
+/**
+ * Class SatispayResponse
+ *
+ * The Satispay response abstraction with all the response data extraction methods.
+ */
 class SatispayResponse {
-    
+
     /**
      * The HTTP response object.
      *

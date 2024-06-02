@@ -2,7 +2,7 @@
 
 require_once('../../vendor/autoload.php');
 
-use Satispay\SatispayGBusinessClient;
+use EmanueleCoppola\Satispay\SatispayGBusinessClient;
 
 if (!file_exists('_authentication.json')) die('_authentication.json file not available!');
 

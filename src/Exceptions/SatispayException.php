@@ -1,6 +1,6 @@
 <?php
 
-namespace Satispay\Exceptions;
+namespace EmanueleCoppola\Satispay\Exceptions;
 
 use Exception;
 

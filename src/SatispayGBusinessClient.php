@@ -1,15 +1,20 @@
 <?php
 
-namespace Satispay;
+namespace EmanueleCoppola\Satispay;
 
-use Satispay\Services\GBusiness\ConsumerService;
-use Satispay\Services\GBusiness\DailyClosureService;
-use Satispay\Services\GBusiness\PaymentService;
-use Satispay\Services\GBusiness\PreAuthorizationService;
-use Satispay\Services\GBusiness\ReportService;
+use EmanueleCoppola\Satispay\Services\GBusiness\ConsumerService;
+use EmanueleCoppola\Satispay\Services\GBusiness\DailyClosureService;
+use EmanueleCoppola\Satispay\Services\GBusiness\PaymentService;
+use EmanueleCoppola\Satispay\Services\GBusiness\PreAuthorizationService;
+use EmanueleCoppola\Satispay\Services\GBusiness\ReportService;
 
+/**
+ * Class SatispayGBusinessClient
+ *
+ * A client for interacting with the Satispay g_business APIs, providing an abstraction for all the functionality.
+ */
 class SatispayGBusinessClient extends SatispayClient {
-    
+
     /**
      * The service that handles /payments APIs.
      *

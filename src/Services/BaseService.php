@@ -1,8 +1,8 @@
 <?php
 
-namespace Satispay\Services;
+namespace EmanueleCoppola\Satispay\Services;
 
-use Satispay\SatispayClient;
+use EmanueleCoppola\Satispay\SatispayClient;
 
 abstract class BaseService {
     

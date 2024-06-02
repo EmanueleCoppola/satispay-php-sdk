@@ -1,11 +1,11 @@
 <?php
 
-namespace Satispay\Services\GBusiness;
+namespace EmanueleCoppola\Satispay\Services\GBusiness;
 
-use Satispay\Exceptions\SatispayException;
-use Satispay\Exceptions\SatispayResponseException;
-use Satispay\SatispayResponse;
-use Satispay\Services\BaseService;
+use EmanueleCoppola\Satispay\Exceptions\SatispayException;
+use EmanueleCoppola\Satispay\Exceptions\SatispayResponseException;
+use EmanueleCoppola\Satispay\SatispayResponse;
+use EmanueleCoppola\Satispay\Services\BaseService;
 
 /**
  * Class ReportService
@@ -13,6 +13,7 @@ use Satispay\Services\BaseService;
  * Service class for managing reports using the Satispay GBusiness API.
  */
 class ReportService extends BaseService {
+
     /**
      * Create a new report.
      *

@@ -1,11 +1,16 @@
 <?php
 
-namespace Satispay;
+namespace EmanueleCoppola\Satispay;
 
-use Satispay\Services\GAgent\PaymentService;
+use EmanueleCoppola\Satispay\Services\GAgent\PaymentService;
 
+/**
+ * Class SatispayGAgentClient
+ *
+ * A client for interacting with the Satispay g_agent APIs, providing an abstraction for all the functionality.
+ */
 class SatispayGAgentClient extends SatispayClient {
-    
+
     /**
      * The service that handles /payments APIs.
      *

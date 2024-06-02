@@ -1,9 +1,9 @@
 <?php
 
-namespace Satispay;
+namespace EmanueleCoppola\Satispay;
 
-use Satispay\Services\AuthenticationService;
-use Satispay\Services\HTTPService;
+use EmanueleCoppola\Satispay\Services\AuthenticationService;
+use EmanueleCoppola\Satispay\Services\HTTPService;
 
 /**
  * Class SatispayClient
@@ -11,6 +11,7 @@ use Satispay\Services\HTTPService;
  * A PHP client for interacting with the Satispay API, providing an abstraction for all the functionality.
  */
 class SatispayClient {
+
     /**
      * Default configuration for the SatispayClient class.
      *
@@ -58,8 +59,8 @@ class SatispayClient {
     const PRODUCTION_BASE_URL = 'https://authservices.satispay.com';
 
     //
-    const VERSION = '2.0.0';
-    const USER_AGENT = 'SatispayGBusinessApiPhpSdk';
+    const VERSION = '1.0.0';
+    const USER_AGENT = 'EmanueleCoppola/satispay-php-sdk';
 
     /**
      * SatispayClient constructor.

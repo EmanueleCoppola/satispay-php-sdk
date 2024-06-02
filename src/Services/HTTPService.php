@@ -1,6 +1,6 @@
 <?php
 
-namespace Satispay\Services;
+namespace EmanueleCoppola\Satispay\Services;
 
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
@@ -12,8 +12,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 // use Psr\Http\Message\UploadedFileFactoryInterface;
 // use Psr\Http\Message\UriFactoryInterface;
-use Satispay\SatispayClient;
-use Satispay\SatispayResponse;
+use EmanueleCoppola\Satispay\SatispayClient;
+use EmanueleCoppola\Satispay\SatispayResponse;
 
 class HTTPService extends BaseService {
     /**

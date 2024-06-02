@@ -1,8 +1,8 @@
 <?php
 
-namespace Satispay\Services;
+namespace EmanueleCoppola\Satispay\Services;
 
-use Satispay\Exceptions\SatispayException;
+use EmanueleCoppola\Satispay\Exceptions\SatispayException;
 
 /**
  * Class AuthenticationService
