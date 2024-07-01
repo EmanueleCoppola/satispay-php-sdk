@@ -25,7 +25,8 @@
         "ext-mbstring": "*",
         "php-http/discovery": "*",
         "psr/http-client-implementation": "*",
-        "psr/http-message": "^2.0"
+        "psr/http-message": "^2.0",
+        "composer-runtime-api": "^2.0"
     },
     "autoload": {
         "psr-4": {

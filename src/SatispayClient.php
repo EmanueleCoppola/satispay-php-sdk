@@ -2,6 +2,7 @@
 
 namespace EmanueleCoppola\Satispay;
 
+use Composer\InstalledVersions;
 use EmanueleCoppola\Satispay\Contracts\RSAServiceContract;
 use EmanueleCoppola\Satispay\Exceptions\SatispayRSAException;
 use EmanueleCoppola\Satispay\Services\AuthenticationService;
@@ -76,8 +77,7 @@ class SatispayClient {
     const PRODUCTION_BASE_URL = 'https://authservices.satispay.com';
 
     //
-    const VERSION = '1.0.0';
-    const USER_AGENT = 'EmanueleCoppola/satispay-php-sdk';
+    const LIBRARY_NAME = 'emanuelecoppola/satispay-php-sdk';
 
     /**
      * SatispayClient constructor.
@@ -90,7 +90,7 @@ class SatispayClient {
             self::DEFAULT_CONFIG,
             [
                 'headers' => [
-                    'User-Agent' => self::USER_AGENT . '/' . self::VERSION . ' PHP/' . phpversion()
+                    'User-Agent' => self::LIBRARY_NAME . '/' . $this->version() . ' PHP/' . phpversion()
                 ]
             ],
             $config
@@ -120,6 +120,16 @@ class SatispayClient {
      * @return void
      */
     protected function boot() {}
+
+    /**
+     * Retrieve the package version installed.
+     *
+     * @return string
+     */
+    protected function version()
+    {
+        return InstalledVersions::getPrettyVersion(self::LIBRARY_NAME);
+    }
 
     /**
      * Resolve the RSA service to be used.
