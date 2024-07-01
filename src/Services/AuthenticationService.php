@@ -65,12 +65,8 @@ class AuthenticationService extends BaseService {
      */
     public function ready()
     {
-        $publicKey = $this->publicKey;
-        $privateKey = $this->privateKey;
-        $keyId = $this->keyId;
-
         return !(
-            empty($publicKey) || empty($privateKey) || empty($keyId)
+            empty($this->publicKey) || empty($this->privateKey) || empty($this->keyId)
         );
     }
 
