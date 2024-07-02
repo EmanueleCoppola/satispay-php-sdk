@@ -17,7 +17,7 @@ class DailyClosureService extends BaseService {
     /**
      * Retrieve a specific daily closure.
      *
-     * @see https://developers.satispay.com/reference/get-the-details-of-a-payment
+     * @see https://developers.satispay.com/reference/retrieve-daily-closure
      *
      * @param string $date The day on which retrieve the daily closure.
      * @param array $query Additional query parameters.
