@@ -90,7 +90,10 @@ class SatispayClient {
             self::DEFAULT_CONFIG,
             [
                 'headers' => [
-                    'User-Agent' => self::LIBRARY_NAME . '/' . $this->version() . ' PHP/' . phpversion()
+                    SatispayHeaders::USER_AGENT => self::LIBRARY_NAME . '/' . $this->version() . ' PHP/' . phpversion(),
+
+                    SatispayHeaders::OS => php_uname('s'),
+                    SatispayHeaders::OS_VERSION => php_uname('r') . ' ' . php_uname('v') . ' ' . php_uname('m')
                 ]
             ],
             $config
@@ -133,8 +136,12 @@ class SatispayClient {
 
     /**
      * Resolve the RSA service to be used.
+     *
+     * By default:
      * OpenSSL will be used if the OpenSSL extension is available.
      * The phpseclib will be used if found in the composer.json.
+     *
+     * You can also create your own implementation by implementing the RSAServiceContract.
      *
      * @throws SatispayRSAException if non of the services is available.
      *

@@ -10,6 +10,7 @@ namespace EmanueleCoppola\Satispay;
  */
 class SatispayHeaders {
 
+    const USER_AGENT = 'User-Agent';
     const IDEMPOTENCY_KEY = 'Idempotency-Key';
 
     // x-
