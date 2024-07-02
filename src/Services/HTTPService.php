@@ -201,7 +201,7 @@ class HTTPService extends BaseService {
             $signatureHeadersSequence[] = $header;
         }
 
-        $signature = implode(PHP_EOL, $signature);
+        $signature = implode("\n", $signature);
 
         // -- authorization
         $base64SignedSignature = $this->context->rsa_service->sign($signature);
