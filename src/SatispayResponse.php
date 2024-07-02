@@ -28,6 +28,20 @@ class SatispayResponse {
     private $context;
 
     /**
+     * The memoized response array.
+     *
+     * @var array|null
+     */
+    private $_toArray = null;
+
+    /**
+     * The memoized response object.
+     *
+     * @var object|null
+     */
+    private $_toObject = null;
+
+    /**
      * SatispayResponse constructor.
      */
     public function __construct(
@@ -201,7 +215,11 @@ class SatispayResponse {
      */
     public function toArray()
     {
-        return json_decode($this->response->getBody(), true);
+        if (!$this->_toArray) {
+            $this->_toArray = json_decode($this->response->getBody(), true);
+        }
+
+        return $this->_toArray;
     }
 
     /**
@@ -211,6 +229,10 @@ class SatispayResponse {
      */
     public function toObject()
     {
-        return json_decode($this->response->getBody());
+        if (!$this->_toObject) {
+            $this->_toObject = json_decode($this->response->getBody());
+        }
+
+        return $this->_toObject;
     }
 }
