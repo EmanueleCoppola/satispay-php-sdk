@@ -66,6 +66,7 @@ class AuthenticationService extends BaseService {
     public function ready()
     {
         // don't touch these two variables
+        // magic __isset method should be implemented, but we avoid it
         $publicKey = $this->publicKey;
         $privateKey = $this->privateKey;
 
