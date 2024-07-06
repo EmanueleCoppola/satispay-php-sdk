@@ -163,6 +163,7 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
 
 ```
 
+---
 
 ### `SatispayGBusinessClient` payments
 
@@ -198,6 +199,39 @@ $satispayPayment = $satispayGBusinessClient->payments->update(
     ]
 );
 ```
+
+---
+
+### `SatispayGBusinessClient` preAuthorizations
+
+Official documentation and code examples:
+- [Create pre-authorization](https://developers.satispay.com/reference/create-authorization) -> [code example](examples/GBusiness/pre-authorization-create.php)
+- [Get pre-authorization](https://developers.satispay.com/reference/get-authorization) -> [code example](examples/GBusiness/pre-authorization-get.php)
+- [Update pre-authorization](https://developers.satispay.com/reference/update-authorization) -> [code example](examples/GBusiness/pre-authorization-update.php)
+
+```php
+$satispayGBusinessClient = new SatispayGBusinessClient([...]);
+
+// Create pre-authorization
+$satispayPreAuthorization = $satispayGBusinessClient->preAuthorizations->create([
+    'reason' => 'Monthly Payments',
+    'callback_url' => 'https://myServer.com/myCallbackUrl?payment_id={uuid}',
+    'redirect_url' => 'https://myServer.com/myRedirectUrl'
+]);
+
+// Get pre-authorization
+$satispayPreAuthorization = $satispayGBusinessClient->preAuthorizations->get('9b89c251-6151-4561-93cc-c027f4d7f034');
+
+// Update pre-authorization
+$satispayPreAuthorization = $satispayGBusinessClient->preAuthorizations->update(
+    '9b89c251-6151-4561-93cc-c027f4d7f034',
+    [
+        'status' => 'CANCELLED',
+    ]
+);
+```
+
+---
 
 ### `SatispayGBusinessClient` consumers
 
