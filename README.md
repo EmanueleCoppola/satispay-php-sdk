@@ -16,6 +16,9 @@ This software is currently mantained by:
 - [Usage](#usage)
     - [Client instantiation](#client-instantiation)
     - [`SatispayGBusinessClient` payments](#satispaygbusinessclient-payments)
+    - [`SatispayGBusinessClient` pre-authorizations](#satispaygbusinessclient-pre-authorizations)
+    - [`SatispayGBusinessClient` daily closures](#satispaygbusinessclient-daily-closures)
+    - [`SatispayGBusinessClient` consumers](#satispaygbusinessclient-comsumers)
 
 ## Get Started
 
@@ -174,14 +177,23 @@ Official documentation and code examples:
 - [Update payment](https://developers.satispay.com/reference/update-a-payment) -> [code example](examples/GBusiness/payment-update.php)
 
 ```php
+use EmanueleCoppola\Satispay\SatispayGBusinessClient;
+use EmanueleCoppola\Satispay\SatispayHeaders;
+
 $satispayGBusinessClient = new SatispayGBusinessClient([...]);
 
 // Create payment
-$satispayPayment = $satispayGBusinessClient->payments->create([
-    'flow' => 'MATCH_CODE',
-    'currency' => 'EUR',
-    'amount_unit' => 12.99 * 100, // 12,99€
-]);
+$satispayPayment = $satispayGBusinessClient->payments->create(
+    [
+        'flow' => 'MATCH_CODE',
+        'currency' => 'EUR',
+        'amount_unit' => 12.99 * 100, // 12,99€
+    ],
+    [
+        // list of headers to be sent
+        SatispayHeaders::IDEMPOTENCY_KEY => rand(10, 1000)
+    ]
+);
 
 // Get payment
 $satispayPayment = $satispayGBusinessClient->payments->get('7b5g32m5-3166-4c01-4617-edrb41558ce7');
@@ -202,7 +214,7 @@ $satispayPayment = $satispayGBusinessClient->payments->update(
 
 ---
 
-### `SatispayGBusinessClient` preAuthorizations
+### `SatispayGBusinessClient` pre-authorizations
 
 Official documentation and code examples:
 - [Create pre-authorization](https://developers.satispay.com/reference/create-authorization) -> [code example](examples/GBusiness/pre-authorization-create.php)
@@ -210,6 +222,8 @@ Official documentation and code examples:
 - [Update pre-authorization](https://developers.satispay.com/reference/update-authorization) -> [code example](examples/GBusiness/pre-authorization-update.php)
 
 ```php
+use EmanueleCoppola\Satispay\SatispayGBusinessClient;
+
 $satispayGBusinessClient = new SatispayGBusinessClient([...]);
 
 // Create pre-authorization
@@ -233,15 +247,33 @@ $satispayPreAuthorization = $satispayGBusinessClient->preAuthorizations->update(
 
 ---
 
+### `SatispayGBusinessClient` daily closures
+
+Official documentation and code examples:
+- [Get daily closure](https://developers.satispay.com/reference/retrieve-daily-closure) -> [code example](examples/GBusiness/daily-closure-get.php)
+
+```php
+use EmanueleCoppola\Satispay\SatispayGBusinessClient;
+
+$satispayGBusinessClient = new SatispayGBusinessClient([...]);
+
+// Get daily closure
+$satispayConsumer = $satispayGBusinessClient->dailyClosures->get('20230119', ['generate_pdf' => true]);
+```
+
+---
+
 ### `SatispayGBusinessClient` consumers
 
 Official documentation and code examples:
 - [Get consumer](https://developers.satispay.com/reference/retrive-consumer) -> [code example](examples/GBusiness/consumer-get.php)
 
 ```php
+use EmanueleCoppola\Satispay\SatispayGBusinessClient;
+
 $satispayGBusinessClient = new SatispayGBusinessClient([...]);
 
-// Get payment
+// Get consumer
 $satispayConsumer = $satispayGBusinessClient->consumers->get('+393337777888');
 ```
 
