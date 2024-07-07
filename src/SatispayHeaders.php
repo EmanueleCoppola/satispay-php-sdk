@@ -24,4 +24,6 @@ class SatispayHeaders {
     const DEVICE_TYPE = 'x-satispay-devicetype';
 
     const TRACKING_CODE = 'x-satispay-tracking-code';
+
+    const RESPONSE_WAIT_TIME = 'x-satispay-response-wait-time';
 }
