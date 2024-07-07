@@ -15,6 +15,7 @@ This software is currently mantained by:
 - [Supported APIs](#supported-apis)
 - [Usage](#usage)
     - [Client instantiation](#client-instantiation)
+    - [Client authentication](#client-authentication)
     - [`SatispayGBusinessClient` payments](#satispaygbusinessclient-payments)
     - [`SatispayGBusinessClient` pre-authorizations](#satispaygbusinessclient-pre-authorizations)
     - [`SatispayGBusinessClient` daily closures](#satispaygbusinessclient-daily-closures)
@@ -30,7 +31,11 @@ First, install the SDK via the [Composer](https://getcomposer.org/) package mana
 composer require emanuelecoppola/satispay-php-sdk
 ```
 
-Ensure that the `php-http/discovery` composer plugin is allowed to run or install a client manually if your project does not already have a PSR-18 client integrated.
+Ensure that the `php-http/discovery` composer plugin is allowed to run.<br>
+This will allow an authomatic PSR-18 HTTP client discovery.
+
+
+If no PSR-18 HTTP client implementations are available in your project, you can manually install a client:
 ```bash
 composer require guzzlehttp/guzzle
 ```
@@ -43,6 +48,10 @@ $yourPrivateKey = getenv('SATISPAY_PRIVATE_KEY');
 $yourKeyId = getenv('SATISPAY_KEY_ID');
 
 $satispayGBusinessClient = new SatispayGBusinessClient([
+
+    // authentication
+    // set these three keys only if you are already authenticated
+    // if you're not, then follow the authentication example
     'public_key' => $yourPublicKey,
     'private_key' => $yourPrivateKey,
     'key_id' => $yourKeyId,
@@ -69,6 +78,10 @@ $yourPrivateKey = getenv('SATISPAY_PRIVATE_KEY');
 $yourKeyId = getenv('SATISPAY_KEY_ID');
 
 $satispayGBusinessClient = new SatispayGBusinessClient([
+
+    // authentication
+    // set these three keys only if you are already authenticated
+    // if you're not, then follow the authentication example
     'public_key' => $yourPublicKey,
     'private_key' => $yourPrivateKey,
     'key_id' => $yourKeyId,
@@ -117,8 +130,10 @@ $yourKeyId = getenv('SATISPAY_KEY_ID');
 // you cold either instantiate a SatispayGBusinessClient instance
 // or a SatispayGAgentClient instance based on your needs
 $satispayGBusinessClient = new SatispayGBusinessClient([
+ 
     // authentication
-    // here you can specify the authentication keys used
+    // set these three keys only if you are already authenticated
+    // if you're not, then follow the authentication example
     'public_key' => $yourPublicKey,
     'private_key' => $yourPrivateKey,
     'key_id' => $yourKeyId,
@@ -164,6 +179,53 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
     ]
 ]);
 
+```
+
+---
+
+### Client authentication
+
+To authenticate your application, you need to use the 6 character activation code provided by Satispay.<br>
+You can read more here: https://developers.satispay.com/docs/credentials
+
+In order to authenticate you can use the following code:
+
+
+```php
+use EmanueleCoppola\Satispay\SatispayGBusinessClient;
+
+$satispayGBusinessClient = new SatispayGBusinessClient([
+    // this is optional, if you use the password in the first authentication
+    // you must use it in every instance that you will create with the same credentials
+    // 'passphrase' => 'my-passphrase',
+
+    'sandbox' => true
+]);
+
+$satispayGBusinessClient->authentication->authenticate('QHPYXD');
+
+$publicKey = $satispayGBusinessClient->authentication->publicKey;
+$privateKey = $satispayGBusinessClient->authentication->privateKey;
+$keyId = $satispayGBusinessClient->authentication->keyId;
+
+if ($satispayGBusinessClient->authentication->ready()) {
+    // store the $publicKey, $privateKey and the $keyId
+}
+
+// once done, just reuse them in every client instance to correctly authenticate to the Satispay APIs
+// you can find an example below
+
+$newSatispayGBusinessClient = new SatispayGBusinessClient([
+    'public_key' => $publicKey,
+    'private_key' => $privateKey,
+    'key_id' => $keyId,
+
+    // this is optional, if you use the password in the first authentication
+    // you must use it in every instance that you will create with the same credentials
+    // 'passphrase' => 'my-passphrase',
+
+    'sandbox' => true
+]);
 ```
 
 ---
