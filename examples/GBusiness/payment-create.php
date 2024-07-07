@@ -3,6 +3,7 @@
 require_once('../../vendor/autoload.php');
 
 use EmanueleCoppola\Satispay\SatispayGBusinessClient;
+use EmanueleCoppola\Satispay\SatispayHeaders;
 
 if (!file_exists('_authentication.json')) die('_authentication.json file not available!');
 
@@ -28,7 +29,7 @@ $data = [
 $payment = $satispayGBusinessClient->payments->create(
     $data,
     [
-        'Idempotency-Key' => rand(10, 1000)
+        SatispayHeaders::IDEMPOTENCY_KEY => rand(10, 1000)
     ]
 );
 
