@@ -19,7 +19,7 @@ This software is currently mantained by:
     - [`SatispayGBusinessClient` payments](#satispaygbusinessclient-payments)
     - [`SatispayGBusinessClient` pre-authorizations](#satispaygbusinessclient-pre-authorizations)
     - [`SatispayGBusinessClient` daily closures](#satispaygbusinessclient-daily-closures)
-    - [`SatispayGBusinessClient` consumers](#satispaygbusinessclient-comsumers)
+    - [`SatispayGBusinessClient` consumers](#satispaygbusinessclient-consumers)
 
 ## Get Started
 
@@ -31,7 +31,12 @@ First, install the SDK via the [Composer](https://getcomposer.org/) package mana
 composer require emanuelecoppola/satispay-php-sdk
 ```
 
-Ensure that the `php-http/discovery` composer plugin is allowed to run.<br>
+If you're using a 5.x PHP version be sure to use a Composer 2.x version that has `composer-runtime-api:^2`.<br>
+As per [Composer System Requirements](https://getcomposer.org/doc/00-intro.md#system-requirements):
+> Composer in its latest version requires PHP 7.2.5 to run. A long-term-support version (2.2.x) still offers support for PHP 5.3.2+ in case you are stuck with a legacy PHP version. A few sensitive php settings and compile flags are also required, but when using the installer you will be warned about any incompatibilities.
+
+
+Also ensure that the `php-http/discovery` composer plugin is allowed to run.<br>
 This will allow an authomatic PSR-18 HTTP client discovery.
 
 
