@@ -5,7 +5,7 @@ namespace EmanueleCoppola\Satispay\Services;
 use EmanueleCoppola\Satispay\SatispayClient;
 
 abstract class BaseService {
-    
+
     /**
      * The SatispayClient instance associated with this service context.
      *
@@ -18,9 +18,9 @@ abstract class BaseService {
      *
      * Initializes the BaseService with an optional context parameter.
      *
-     * @param mixed|null $context The context parameter, typically an instance of SatispayClient.
+     * @param SatispayClient $context The context parameter, typically an instance of SatispayClient.
      */
-    public function __construct($context = null)
+    public function __construct($context)
     {
         $this->context = $context;
     }
