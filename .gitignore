@@ -1,13 +1,15 @@
 # dependencies
-/vendor
+vendor/
 composer.lock
+package-json.lock
 
 # ide/editor
-/.idea
+.idea/
+.vscode/
 
 # examples
-/examples/GAgent/_authentication.json
-/examples/GBusiness/_authentication.json
+examples/GAgent/_authentication.json
+examples/GBusiness/_authentication.json
 
 # os
 .DS_Store
