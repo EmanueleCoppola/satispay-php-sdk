@@ -36,7 +36,7 @@ class PaymentService extends BaseService {
      *
      * @see https://connect.satispay.com/reference/create-a-new-pagopa-payment
      *
-     * @param string $id The ID of the payment to retrieve.
+     * @param string $id The id of the payment to retrieve.
      * @param array $headers Additional headers for the HTTP request.
      *
      * @return SatispayResponse
