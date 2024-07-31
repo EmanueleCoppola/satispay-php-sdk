@@ -2,6 +2,7 @@
 
 namespace EmanueleCoppola\Satispay;
 
+use EmanueleCoppola\Satispay\Services\GBusiness\ProfileService;
 use EmanueleCoppola\Satispay\Services\GBusiness\ConsumerService;
 use EmanueleCoppola\Satispay\Services\GBusiness\DailyClosureService;
 use EmanueleCoppola\Satispay\Services\GBusiness\PaymentService;
@@ -14,6 +15,20 @@ use EmanueleCoppola\Satispay\Services\GBusiness\ReportService;
  * A client for interacting with the Satispay g_business APIs, providing an abstraction for all the functionality.
  */
 class SatispayGBusinessClient extends SatispayClient {
+
+    /**
+     * The service that handles /profile APIs.
+     *
+     * @var ProfileService
+     */
+    public $profile;
+
+    /**
+     * The service that handles /consumers APIs.
+     *
+     * @var ConsumerService
+     */
+    public $consumers;
 
     /**
      * The service that handles /payments APIs.
@@ -37,13 +52,6 @@ class SatispayGBusinessClient extends SatispayClient {
     public $reports;
 
     /**
-     * The service that handles /consumers APIs.
-     *
-     * @var ConsumerService
-     */
-    public $consumers;
-
-    /**
      * The service that handles /daily_closure APIs.
      *
      * @var DailyClosureService
@@ -55,13 +63,15 @@ class SatispayGBusinessClient extends SatispayClient {
      */
     protected function boot()
     {
+        $this->profile = new ProfileService($this);
+
+        $this->consumers = new ConsumerService($this);
+
         $this->payments = new PaymentService($this);
 
         $this->preAuthorizations = new PreAuthorizationService($this);
 
         $this->reports = new ReportService($this);
-
-        $this->consumers = new ConsumerService($this);
 
         $this->dailyClosures = new DailyClosureService($this);
     }
