@@ -34,6 +34,7 @@ echo "
 echo 'id: ' . $profile['id'] . "\n";
 echo 'name: ' . $profile['name'] . "\n";
 echo 'model: ' . $profile['model'] . "\n";
+echo 'address: ' . $profile['address']['address'] . ' ' . $profile['address']['st_number'] . ', ' . $profile['address']['zip_code'] . ' ' . $profile['address']['city'] . "\n";
 echo 'localization: ' . $profile['localization'] . "\n";
 echo 'qr: ' . $profile['qr_code_identifier'] . "\n";
 echo 'mv: ' . $profile['payment_methods']['meal_voucher'] ? 'enabled' : 'disabled';
