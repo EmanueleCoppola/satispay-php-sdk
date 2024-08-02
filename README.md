@@ -20,6 +20,7 @@ This software is currently mantained by:
     - [`SatispayGBusinessClient` pre-authorizations](#satispaygbusinessclient-pre-authorizations)
     - [`SatispayGBusinessClient` daily closures](#satispaygbusinessclient-daily-closures)
     - [`SatispayGBusinessClient` consumers](#satispaygbusinessclient-consumers)
+    - [`SatispayGBusinessClient` profile](#satispaygbusinessclient-profile)
 
 ## Get Started
 
@@ -342,5 +343,21 @@ $satispayGBusinessClient = new SatispayGBusinessClient([...]);
 
 // Get consumer
 $satispayConsumer = $satispayGBusinessClient->consumers->get('+393337777888');
+```
+
+---
+
+### `SatispayGBusinessClient` profile
+
+Official documentation and code examples:
+- [Get profile](https://developers.satispay.com/reference/retrieve-shop-profile) -> [code example](examples/GBusiness/profile-me.php)
+
+```php
+use EmanueleCoppola\Satispay\SatispayGBusinessClient;
+
+$satispayGBusinessClient = new SatispayGBusinessClient([...]);
+
+// Get profile
+$satispayProfile = $satispayGBusinessClient->profile->me();
 ```
 
