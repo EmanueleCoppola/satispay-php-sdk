@@ -133,8 +133,9 @@ $yourPublicKey = getenv('SATISPAY_PUBLIC_KEY');
 $yourPrivateKey = getenv('SATISPAY_PRIVATE_KEY');
 $yourKeyId = getenv('SATISPAY_KEY_ID');
 
-// you cold either instantiate a SatispayGBusinessClient instance
+// you could either instantiate a SatispayGBusinessClient instance
 // or a SatispayGAgentClient instance based on your needs
+// the constructor is the same in both classes
 $satispayGBusinessClient = new SatispayGBusinessClient([
  
     // authentication
@@ -198,8 +199,12 @@ In order to authenticate you can use the following code:
 
 
 ```php
+use EmanueleCoppola\Satispay\SatispayGAgentClient;
 use EmanueleCoppola\Satispay\SatispayGBusinessClient;
 
+// for the authentication
+// you could either instantiate a SatispayGBusinessClient instance
+// or a SatispayGAgentClient instance based on your needs
 $satispayGBusinessClient = new SatispayGBusinessClient([
     // this is optional, if you use the password in the first authentication
     // you must use it in every instance that you will create with the same credentials
@@ -360,4 +365,3 @@ $satispayGBusinessClient = new SatispayGBusinessClient([...]);
 // Get profile
 $satispayProfile = $satispayGBusinessClient->profile->me();
 ```
-
