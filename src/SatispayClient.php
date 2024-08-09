@@ -30,6 +30,11 @@ class SatispayClient {
 
         'passphrase' => null,
 
+        // MQTT authentication
+        'mqtt_client_certificate' => null,
+        'mqtt_client_certificate_key' => null,
+        'mqtt_shop_uid' => null,
+
         //
         'sandbox' => false,
 
@@ -110,19 +115,21 @@ class SatispayClient {
 
         $this->http = new HTTPService(
             $this,
-            $this->config['sandbox'] === true ? self::STAGING_BASE_URL : self::PRODUCTION_BASE_URL,
+            $this->sandbox() ? self::STAGING_BASE_URL : self::PRODUCTION_BASE_URL,
             $this->config['psr']
         );
 
-        $this->boot();
+        $this->boot($this->config);
     }
 
     /**
      * Function that instantiate all the dependencies.
      *
+     * @param mixed $config The configuration data required for bootstrapping dependencies.
+     *
      * @return void
      */
-    protected function boot() {}
+    protected function boot($config) {}
 
     /**
      * Retrieve the package version installed.

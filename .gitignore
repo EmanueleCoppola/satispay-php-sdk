@@ -11,5 +11,8 @@ package-json.lock
 examples/GAgent/_authentication.json
 examples/GBusiness/_authentication.json
 
+examples/GBusiness/_mqtt
+examples/GBusiness/_mqtt_authentication.json
+
 # os
 .DS_Store
