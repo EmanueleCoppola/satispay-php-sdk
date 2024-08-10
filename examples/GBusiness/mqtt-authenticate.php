@@ -22,8 +22,8 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
 $satispayGBusinessClient->mqtt->authenticate();
 
 if ($satispayGBusinessClient->mqtt->ready()) {
-    $clientCertificate = $satispayGBusinessClient->mqtt->certificatePem;
-    $clientCertificateKey = $satispayGBusinessClient->mqtt->privateKey;
+    $clientCertificate = $satispayGBusinessClient->mqtt->clientCertificate;
+    $clientCertificateKey = $satispayGBusinessClient->mqtt->clientCertificateKey;
     $shopUid = $satispayGBusinessClient->mqtt->shopUid;
 
     file_put_contents(
@@ -41,7 +41,7 @@ if ($satispayGBusinessClient->mqtt->ready()) {
 
     // we write these files just because we use the php-mqtt which only reads from the file system
     file_put_contents('_mqtt/AmazonRootCA1.pem', file_get_contents('https://www.amazontrust.com/repository/AmazonRootCA1.pem'));
-    file_put_contents('_mqtt/client_certificate.pem', $satispayGBusinessClient->mqtt->certificatePem);
-    file_put_contents('_mqtt/client_certificate.key', $satispayGBusinessClient->mqtt->privateKey);
+    file_put_contents('_mqtt/client_certificate.pem', $clientCertificate);
+    file_put_contents('_mqtt/client_certificate.key', $clientCertificateKey);
 }
 
