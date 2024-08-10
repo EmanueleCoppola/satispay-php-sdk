@@ -142,4 +142,20 @@ class MQTTService extends BaseService {
 
         return implode('_', $clientId);
     }
+
+    /**
+     * The MQTT topic for subscribing to the fund lock notifications.
+     *
+     * @return string
+     */
+    public function fundLockTopic()
+    {
+        $topic = [];
+
+        $topic[] = $this->context->sandbox() ? 'staging/' : '';
+        $topic[] = 'transaction/v1/fund_lock/owner/+/recipient/';
+        $topic[] = $this->shopUid;
+
+        return implode('', $topic);
+    }
 }
