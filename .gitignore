@@ -9,9 +9,9 @@ package-json.lock
 
 # examples
 examples/GAgent/_*.json
+examples/GAgent/_*/
 examples/GBusiness/_*.json
-examples/GBusiness/_mqtt
-
+examples/GBusiness/_*/
 
 # os
 .DS_Store
