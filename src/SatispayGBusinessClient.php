@@ -94,8 +94,8 @@ class SatispayGBusinessClient extends SatispayClient {
             $this,
             $this->sandbox() ? self::STAGING_MQTT_SERVER : self::PRODUCTION_MQTT_SERVER,
             self::MQTT_PORT,
-            $config['mqtt_certificate_pem'],
-            $config['mqtt_private_key'],
+            $config['mqtt_client_certificate'],
+            $config['mqtt_client_certificate_key'],
             $config['mqtt_shop_uid']
         );
     }
