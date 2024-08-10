@@ -29,7 +29,7 @@ class SatispayGAgentClient extends SatispayClient {
     /**
      * @inheritdoc
      */
-    protected function boot()
+    protected function boot($config)
     {
         $this->payments = new PaymentService($this);
 
