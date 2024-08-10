@@ -23,15 +23,14 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
     // 'passphrase' => 'my-passphrase',
 
     // MQTT
-    'mqtt_certificate_pem' => $mqtt_authentication['client_certificate'],
-    'mqtt_private_key' => $mqtt_authentication['client_certificate_key'],
+    'mqtt_client_certificate' => $mqtt_authentication['client_certificate'],
+    'mqtt_client_certificate_key' => $mqtt_authentication['client_certificate_key'],
     'mqtt_shop_uid' => $mqtt_authentication['shop_uid'],
 
     'sandbox' => true
 ]);
 
 if (
-    !$satispayGBusinessClient->mqtt->ready() ||
     !file_exists('_mqtt/AmazonRootCA1.pem') || !file_exists('_mqtt/client_certificate.pem') || !file_exists('_mqtt/client_certificate.key')
 ) die('MQTT certificate files not found!');
 
@@ -39,7 +38,9 @@ try {
     $client = new MqttClient(
         $satispayGBusinessClient->mqtt->host,
         $satispayGBusinessClient->mqtt->port,
-        $satispayGBusinessClient->mqtt->clientId()
+        $satispayGBusinessClient->mqtt->clientId(),
+        MqttClient::MQTT_3_1_1,
+        null
     );
 
     $connectionSettings = (new ConnectionSettings)
@@ -51,9 +52,11 @@ try {
 
     $client->connect($connectionSettings, true);
 
+    echo "Connected succesfully!\n";
+
     $topic = $satispayGBusinessClient->mqtt->fundLockTopic();
 
-    $client->subscribe($topic, function ($topic, $message, $retained) use ($logger, $client) {
+    $client->subscribe($topic, function ($topic, $message, $retained) use ($client) {
         echo sprintf(
             "We received a %s on topic [%s]: %s",
             $retained ? 'retained message' : 'message',
@@ -65,9 +68,11 @@ try {
         $client->interrupt();
     }, MqttClient::QOS_AT_LEAST_ONCE);
 
+    echo "Subscribed to topic: " . $topic . "\n";
+
     $client->loop(true);
 
     $client->disconnect();
 } catch (MqttClientException $e) {
-    echo "Connecting with TLS or publishing with QoS 0 failed. An exception occurred. Exception: " . $e;
+    echo "Connecting with TLS or publishing failed. An exception occurred. Exception: " . $e;
 }

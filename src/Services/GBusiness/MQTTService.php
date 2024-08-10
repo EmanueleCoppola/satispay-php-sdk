@@ -29,18 +29,18 @@ class MQTTService extends BaseService {
     public $port;
 
     /**
-     * The PEM certificate to be used with MQTT connections.
+     * The client certificate to be used with MQTT connections.
      *
      * @var string|null
      */
-    public $certificatePem;
+    public $clientCertificate;
 
     /**
-     * The private key to be used with MQTT connections.
+     * The client certificate key to be used with MQTT connections.
      *
      * @var string|null
      */
-    public $privateKey;
+    public $clientCertificateKey;
 
     /**
      * The shop uid required for MQTT subscription.
@@ -55,19 +55,19 @@ class MQTTService extends BaseService {
      * @inheritdoc
      * @param string|null $host The host used for the MQTT connection.
      * @param string|null $port The port used for the MQTT connection.
-     * @param string|null $certificatePem The PEM certificate to be used with MQTT connections.
-     * @param string|null $privateKey The private key to be used with MQTT connections.
+     * @param string|null $clientCertificate The client certificate to be used with MQTT connections.
+     * @param string|null $clientCertificateKey The client certificate key to be used with MQTT connections.
      * @param string|null $shopUid The shop uid required for MQTT subscription.
      */
-    public function __construct($context, $host = null, $port = 8883, $certificatePem = null, $privateKey = null, $shopUid = null)
+    public function __construct($context, $host = null, $port = 8883, $clientCertificate = null, $clientCertificateKey = null, $shopUid = null)
     {
         parent::__construct($context);
 
         $this->host = $host;
         $this->port = $port;
 
-        $this->certificatePem = $certificatePem;
-        $this->privateKey = $privateKey;
+        $this->clientCertificate = $clientCertificate;
+        $this->clientCertificateKey = $clientCertificateKey;
 
         $this->shopUid = $shopUid;
     }
@@ -85,8 +85,25 @@ class MQTTService extends BaseService {
     {
         return !(
             (empty($this->host) && empty($this->port)) ||
-            empty($this->certificatePem) || empty($this->privateKey) || empty($this->shopUid)
+            empty($this->clientCertificate) || empty($this->clientCertificateKey) || empty($this->shopUid)
         );
+    }
+
+    /**
+     * Ensure that MQTT authentication parameters are set.
+     *
+     * This method checks whether the MQTT authentication parameters are correctly set.
+     * If the parameters are not set, it throws a `SatispayException` indicating that authentication is required
+     * before proceeding with MQTT operations.
+     *
+     * @throws SatispayException if authentication parameters are not set.
+     * @return void
+     */
+    protected function ensureReady()
+    {
+        if (!$this->ready()) {
+            throw new SatispayException('Please authenticate to MQTT first!');
+        }
     }
 
     /**
@@ -119,8 +136,8 @@ class MQTTService extends BaseService {
             key_exists('private_key', $response) &&
             key_exists('shop_uid', $response)
         ) {
-            $this->certificatePem = $response['certificate_pem'];
-            $this->privateKey = $response['private_key'];
+            $this->clientCertificate = $response['certificate_pem'];
+            $this->clientCertificateKey = $response['private_key'];
             $this->shopUid = $response['shop_uid'];
         }
 
@@ -130,10 +147,13 @@ class MQTTService extends BaseService {
     /**
      * Generate an MQTT client id with a random seed.
      *
+     * @throws SatispayException
      * @return string
      */
     public function clientId()
     {
+        $this->ensureReady();
+
         $clientId = [];
 
         $clientId[] = $this->context->sandbox() ? 'staging/shop' : 'shop';
@@ -146,10 +166,13 @@ class MQTTService extends BaseService {
     /**
      * The MQTT topic for subscribing to the fund lock notifications.
      *
+     * @throws SatispayException
      * @return string
      */
     public function fundLockTopic()
     {
+        $this->ensureReady();
+
         $topic = [];
 
         $topic[] = $this->context->sandbox() ? 'staging/' : '';
