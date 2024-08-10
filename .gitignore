@@ -8,11 +8,10 @@ package-json.lock
 .vscode/
 
 # examples
-examples/GAgent/_authentication.json
-examples/GBusiness/_authentication.json
-
+examples/GAgent/_*.json
+examples/GBusiness/_*.json
 examples/GBusiness/_mqtt
-examples/GBusiness/_mqtt_authentication.json
+
 
 # os
 .DS_Store
