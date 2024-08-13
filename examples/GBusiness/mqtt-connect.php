@@ -30,29 +30,32 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
     'sandbox' => true
 ]);
 
+$cert = $satispayGBusinessClient->sandbox() ? 'pca3-g5.crt.pem' : 'AmazonRootCA1.pem';
+
 if (
-    !file_exists('_mqtt/AmazonRootCA1.pem') || !file_exists('_mqtt/client_certificate.pem') || !file_exists('_mqtt/client_certificate.key')
+    !file_exists('_mqtt/' . $cert) || !file_exists('_mqtt/client_certificate.pem') || !file_exists('_mqtt/client_certificate.key')
 ) die('MQTT certificate files not found!');
 
 try {
+    $clientId = $satispayGBusinessClient->mqtt->clientId();
+
     $client = new MqttClient(
         $satispayGBusinessClient->mqtt->host,
         $satispayGBusinessClient->mqtt->port,
-        $satispayGBusinessClient->mqtt->clientId(),
-        MqttClient::MQTT_3_1_1,
-        null
+        $clientId,
+        MqttClient::MQTT_3_1_1
     );
 
     $connectionSettings = (new ConnectionSettings)
         ->setUseTls(true)
         // ->setTlsVerifyPeer(false)
-        ->setTlsCertificateAuthorityFile(realpath('_mqtt/AmazonRootCA1.pem'))
+        ->setTlsCertificateAuthorityFile(realpath('_mqtt/' . $cert))
         ->setTlsClientCertificateFile(realpath('_mqtt/client_certificate.pem'))
         ->setTlsClientCertificateKeyFile(realpath('_mqtt/client_certificate.key'));
 
     $client->connect($connectionSettings, true);
 
-    echo "Connected succesfully!\n";
+    echo "Connected succesfully with client id " . $clientId . ".\n";
 
     $topic = $satispayGBusinessClient->mqtt->fundLockTopic();
 

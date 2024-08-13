@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/github/license/EmanueleCoppola/satispay-php-sdk)
 ![PHP Version](https://img.shields.io/badge/php-%3E%3D5.4-8892BF.svg)
 
-This is a PHP SDK for integrating with the Satispay APIs.
+This is the most complete PHP SDK for integrating the Satispay APIs.
 
 It provides a comprehensive solution that supports all Satispay API features, allowing for seamless integration of payment functionalities into your PHP applications.
 

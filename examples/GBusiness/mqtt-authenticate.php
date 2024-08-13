@@ -39,8 +39,10 @@ if ($satispayGBusinessClient->mqtt->ready()) {
         mkdir('_mqtt', 0755, true);
     }
 
-    // we write these files just because we use the php-mqtt which only reads from the file system
-    file_put_contents('_mqtt/AmazonRootCA1.pem', file_get_contents('https://www.amazontrust.com/repository/AmazonRootCA1.pem'));
+    // we write these files just because we use php-mqtt which only reads certificates from the file system
+    $cert = $satispayGBusinessClient->sandbox() ? 'https://cacerts.digicert.com/pca3-g5.crt.pem' : 'https://www.amazontrust.com/repository/AmazonRootCA1.pem';
+
+    file_put_contents('_mqtt/' . basename($cert), file_get_contents($cert));
     file_put_contents('_mqtt/client_certificate.pem', $clientCertificate);
     file_put_contents('_mqtt/client_certificate.key', $clientCertificateKey);
 }
