@@ -12,7 +12,7 @@ if (!file_exists('_authentication.json')) die('_authentication.json file not ava
 if (!file_exists('_mqtt_authentication.json')) die('_mqtt_authentication.json file not available!');
 
 if (
-    !file_exists('_mqtt/' . $cert) || !file_exists('_mqtt/client_certificate.pem') || !file_exists('_mqtt/client_certificate.key')
+    !file_exists('_mqtt/client_certificate.pem') || !file_exists('_mqtt/client_certificate.key')
 ) die('MQTT certificate files not found!');
 
 $authentication = json_decode(file_get_contents('_authentication.json'), true);
@@ -34,7 +34,13 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
     'sandbox' => true
 ]);
 
-$cert = $satispayGBusinessClient->sandbox() ? 'pca3-g5.crt.pem' : 'AmazonRootCA1.pem';
+$cert = basename(
+    $satispayGBusinessClient->sandbox() ?
+        SatispayGBusinessClient::STAGING_MQTT_CERTIFICATE :
+        SatispayGBusinessClient::PRODUCTION_MQTT_CERTIFICATE
+);
+
+if (!file_exists('_mqtt/' . $cert)) die($cert . ' file not found!');
 
 try {
     $clientId = $satispayGBusinessClient->mqtt->clientId();

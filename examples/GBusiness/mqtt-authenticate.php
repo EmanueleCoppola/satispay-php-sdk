@@ -40,10 +40,9 @@ if ($satispayGBusinessClient->mqtt->ready()) {
     }
 
     // we write these files just because we use php-mqtt which only reads certificates from the file system
-    $cert = $satispayGBusinessClient->sandbox() ? 'https://cacerts.digicert.com/pca3-g5.crt.pem' : 'https://www.amazontrust.com/repository/AmazonRootCA1.pem';
+    $cert = $satispayGBusinessClient->sandbox() ? SatispayGBusinessClient::STAGING_MQTT_CERTIFICATE : SatispayGBusinessClient::PRODUCTION_MQTT_CERTIFICATE;
 
     file_put_contents('_mqtt/' . basename($cert), file_get_contents($cert));
     file_put_contents('_mqtt/client_certificate.pem', $clientCertificate);
     file_put_contents('_mqtt/client_certificate.key', $clientCertificateKey);
 }
-

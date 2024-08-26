@@ -23,6 +23,10 @@ class SatispayGBusinessClient extends SatispayClient {
     const PRODUCTION_MQTT_SERVER = 'a186ick0qcrau4-ats.iot.eu-west-1.amazonaws.com';
 
     //
+    const STAGING_MQTT_CERTIFICATE = 'https://cacerts.digicert.com/pca3-g5.crt.pem';
+    const PRODUCTION_MQTT_CERTIFICATE = 'https://www.amazontrust.com/repository/AmazonRootCA1.pem';
+
+    //
     const MQTT_PORT = 8883;
 
     /**
