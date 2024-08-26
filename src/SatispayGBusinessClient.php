@@ -9,6 +9,7 @@ use EmanueleCoppola\Satispay\Services\GBusiness\MQTTService;
 use EmanueleCoppola\Satispay\Services\GBusiness\PaymentService;
 use EmanueleCoppola\Satispay\Services\GBusiness\PreAuthorizationService;
 use EmanueleCoppola\Satispay\Services\GBusiness\ReportService;
+use EmanueleCoppola\Satispay\Services\GBusiness\SessionService;
 
 /**
  * Class SatispayGBusinessClient
@@ -67,11 +68,18 @@ class SatispayGBusinessClient extends SatispayClient {
     public $dailyClosures;
 
     /**
-     * The service that handles the MQTT service.
+     * The service that handles the MQTT connection.
      *
      * @var MQTTService
      */
     public $mqtt;
+
+    /**
+     * The service that handles the /sessions APIs.
+     *
+     * @var SessionService
+     */
+    public $sessions;
 
     /**
      * @inheritdoc
@@ -98,5 +106,7 @@ class SatispayGBusinessClient extends SatispayClient {
             $config['mqtt_client_certificate_key'],
             $config['mqtt_shop_uid']
         );
+
+        $this->sessions = new SessionService($this);
     }
 }

@@ -41,7 +41,8 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^7.0",
         "php-mqtt/client": "^2.1",
-        "phpseclib/phpseclib": "~3.0"
+        "phpseclib/phpseclib": "~3.0",
+        "composer/semver": "^3.4"
     },
     "suggest": {
         "phpseclib/phpseclib": "If you don't have the OpenSSL extension installed."
