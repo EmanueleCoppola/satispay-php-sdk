@@ -20,7 +20,10 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
 ]);
 
 $payments = $satispayGBusinessClient->payments->all([
-     'status' => 'ACCEPTED'
+    'status' => 'ACCEPTED',
+
+    // Array syntax is supported too
+    // 'status' => ['PENDING', 'ACCEPTED'],
 ]);
 
 echo $payments->toJson();

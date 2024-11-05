@@ -229,21 +229,25 @@ class HTTPService extends BaseService {
      * It converts boolean values in the input array to string representations ('true' or 'false').
      *
      * @param array $data The associative array of parameters.
-     * @param string $numeric_prefix If numeric indices are used in the base array and this parameter is provided, it will be prepended to the numeric index for elements in the base array only.
-     * @param string|null $arg_separator The argument separator to use. Default is '&'.
-     * @param int $encoding_type An optional constant specifying how to encode spaces. Default is PHP_QUERY_RFC1738.
      *
      * @return string
      */
-    private function http_build_query($data, string $numeric_prefix = '', $arg_separator = null, $encoding_type = PHP_QUERY_RFC1738)
+    private function http_build_query($data)
     {
+        $query = [];
+
         foreach ($data as $key => $value) {
             if (is_bool($value)) {
-                $data[$key] = $value ? 'true' : 'false';
+                $value = $value ? 'true' : 'false';
             }
+            else if (is_array($value)) {
+                $value = '["' . implode('","', $value) . '"]';
+            }
+
+            $query[] = $key . '=' . $value;
         }
 
-        return http_build_query($data, $numeric_prefix, $arg_separator, $encoding_type);
+        return implode('&', $query);
     }
 
     /**
