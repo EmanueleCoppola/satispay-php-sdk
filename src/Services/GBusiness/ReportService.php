@@ -19,7 +19,7 @@ class ReportService extends BaseService {
      *
      * @see https://developers.satispay.com/reference/create-new-report
      *
-     * @param array $payload The payload data for creating a report.
+     * @param array $body The body for creating a report.
      * @param array $headers Additional headers for the HTTP request.
      *
      * @throws SatispayException
@@ -27,10 +27,10 @@ class ReportService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function create($payload, $headers = []) {
+    public function create($body, $headers = []) {
         $response = $this->context->http->post(
             '/g_business/v1/reports',
-            $payload,
+            $body,
             true,
             $headers
         );

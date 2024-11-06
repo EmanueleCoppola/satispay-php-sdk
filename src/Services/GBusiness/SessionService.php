@@ -19,7 +19,7 @@ class SessionService extends BaseService {
      *
      * @see https://developers.satispay.com/reference/open-session
      *
-     * @param array $payload The payload data for creating a payment.
+     * @param array $body The body for creating a payment.
      * @param array $headers Additional headers for the HTTP request.
      *
      * @throws SatispayException
@@ -27,10 +27,10 @@ class SessionService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function create($payload, $headers = []) {
+    public function create($body, $headers = []) {
         $response = $this->context->http->post(
             '/g_business/v1/sessions',
-            $payload,
+            $body,
             true,
             $headers
         );
@@ -105,7 +105,7 @@ class SessionService extends BaseService {
      * @see https://developers.satispay.com/reference/create-session-event
      *
      * @param array $id The ID of the session to create events in.
-     * @param array $payload The payload data for creating a payment.
+     * @param array $body The body for creating a payment.
      * @param array $headers Additional headers for the HTTP request.
      *
      * @throws SatispayException
@@ -113,10 +113,10 @@ class SessionService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function createEvent($id, $payload, $headers = []) {
+    public function createEvent($id, $body, $headers = []) {
         $response = $this->context->http->post(
             '/g_business/v1/sessions/' . $id . '/events',
-            $payload,
+            $body,
             true,
             $headers
         );

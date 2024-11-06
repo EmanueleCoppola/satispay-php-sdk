@@ -19,7 +19,7 @@ class PreAuthorizationService extends BaseService {
      *
      * @see https://developers.satispay.com/reference/create-authorization
      *
-     * @param array $payload The payload data for creating a pre-authorization.
+     * @param array $body The body for creating a pre-authorization.
      * @param array $headers Additional headers for the HTTP request.
      *
      * @throws SatispayException
@@ -27,11 +27,11 @@ class PreAuthorizationService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function create($payload, $headers = [])
+    public function create($body, $headers = [])
     {
         $response = $this->context->http->post(
             '/g_business/v1/pre_authorized_payment_tokens',
-            $payload,
+            $body,
             true,
             $headers
         );
