@@ -9,14 +9,14 @@ use PhpMqtt\Client\Exceptions\MqttClientException;
 use PhpMqtt\Client\MqttClient;
 
 if (!file_exists('_authentication.json')) die('_authentication.json file not available!');
-if (!file_exists('_mqtt_authentication.json')) die('_mqtt_authentication.json file not available!');
+if (!file_exists('_mqtt-authentication.json')) die('_mqtt-authentication.json file not available!');
 
 if (
     !file_exists('_mqtt/client_certificate.pem') || !file_exists('_mqtt/client_certificate.key')
-) die('MQTT certificate files not found!');
+) die('MQTT certificate files not found!');{}
 
 $authentication = json_decode(file_get_contents('_authentication.json'), true);
-$mqtt_authentication = json_decode(file_get_contents('_mqtt_authentication.json'), true);
+$mqtt_authentication = json_decode(file_get_contents('_mqtt-authentication.json'), true);
 
 $satispayGBusinessClient = new SatispayGBusinessClient([
     'public_key' => $authentication['public_key'],
@@ -56,8 +56,8 @@ try {
         ->setUseTls(true)
         // ->setTlsVerifyPeer(false)
         ->setTlsCertificateAuthorityFile(realpath('_mqtt/' . $cert))
-        ->setTlsClientCertificateFile(realpath('_mqtt/client_certificate.pem'))
-        ->setTlsClientCertificateKeyFile(realpath('_mqtt/client_certificate.key'));
+        ->setTlsClientCertificateFile(realpath('_mqtt/client-certificate.pem'))
+        ->setTlsClientCertificateKeyFile(realpath('_mqtt/client-certificate.key'));
 
     $client->connect($connectionSettings, true);
 
@@ -66,6 +66,34 @@ try {
     $topic = $satispayGBusinessClient->mqtt->fundLockTopic();
 
     $client->subscribe($topic, function ($topic, $message, $retained) use ($client) {
+        /**
+         * $message example:
+         *
+         * {
+         *     "id": "0c16f440-7fdb-46f1-97d9-1e345e68f478",
+         *     "event": "FUND_LOCK_STATE_CHANGE",
+         *     "payload": {
+         *         "uid": "0de7f8f2-1aa3-4a50-80bc-5f8fa8b21307",
+         *         "available": true,
+         *         "payment_uid": "c0c06415-11c4-471f-8bae-0310a61f9067",
+         *         "payment_type": "SHOP_FUND_LOCK",
+         *         "currency": "EUR",
+         *         "recipient_uid": "0c4f4511-1afa-4b17-b529-ff7465d126c1",
+         *         "owner_uid": "1ed62785-4c8d-46c5-8675-5a5d06ea9f67",
+         *         "amount_unit": 5500,
+         *         "expiration_date": "2024-10-18T18:11:54.160Z",
+         *         "insert_date": "2024-10-18T15:11:54.359Z"
+         *     },
+         *     "correlation_id": "6ikkwcXl",
+         *     "date": "2024-10-18T15:11:54.516Z",
+         *     "version": "1"
+         * }
+         *
+         * You can use the payload.uid (the fund lock uid) to open a session.
+         *
+         * Please see the session-create.php example file.
+         */
+
         echo sprintf(
             "We received a %s on topic [%s]: %s",
             $retained ? 'retained message' : 'message',

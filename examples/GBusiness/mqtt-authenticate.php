@@ -27,7 +27,7 @@ if ($satispayGBusinessClient->mqtt->ready()) {
     $shopUid = $satispayGBusinessClient->mqtt->shopUid;
 
     file_put_contents(
-        '_mqtt_authentication.json',
+        '_mqtt-authentication.json',
         json_encode([
             'client_certificate' => $clientCertificate,
             'client_certificate_key' => $clientCertificateKey,
@@ -43,6 +43,6 @@ if ($satispayGBusinessClient->mqtt->ready()) {
     $cert = $satispayGBusinessClient->sandbox() ? SatispayGBusinessClient::STAGING_MQTT_CERTIFICATE : SatispayGBusinessClient::PRODUCTION_MQTT_CERTIFICATE;
 
     file_put_contents('_mqtt/' . basename($cert), file_get_contents($cert));
-    file_put_contents('_mqtt/client_certificate.pem', $clientCertificate);
-    file_put_contents('_mqtt/client_certificate.key', $clientCertificateKey);
+    file_put_contents('_mqtt/client-certificate.pem', $clientCertificate);
+    file_put_contents('_mqtt/client-certificate.key', $clientCertificateKey);
 }
