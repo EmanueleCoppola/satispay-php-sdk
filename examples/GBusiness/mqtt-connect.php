@@ -12,7 +12,7 @@ if (!file_exists('_authentication.json')) die('_authentication.json file not ava
 if (!file_exists('_mqtt-authentication.json')) die('_mqtt-authentication.json file not available!');
 
 if (
-    !file_exists('_mqtt/client_certificate.pem') || !file_exists('_mqtt/client_certificate.key')
+    !file_exists('_mqtt/client-certificate.pem') || !file_exists('_mqtt/client-certificate.key')
 ) die('MQTT certificate files not found!');{}
 
 $authentication = json_decode(file_get_contents('_authentication.json'), true);
@@ -94,21 +94,26 @@ try {
          * Please see the session-create.php example file.
          */
 
+        echo "----------------------------------------------------------------------\n";
         echo sprintf(
             "We received a %s on topic [%s]: %s",
             $retained ? 'retained message' : 'message',
             $topic,
             $message
-        );
+        ) . "\n";
 
         $message = json_decode($message, true);
 
-        if(in_array('payload', $message)) {
-            echo "You can create a session using this id: " . $message['payload']['uid'];
+        if(
+            array_key_exists('payload', $message) &&
+            array_key_exists('uid', $message['payload'])
+        ) {
+            echo "You can create a session using this id: " . $message['payload']['uid'] . "\n";
         }
 
-        // quit after first message
-        $client->interrupt();
+        echo "----------------------------------------------------------------------\n";
+
+        // $client->interrupt();
     }, MqttClient::QOS_AT_LEAST_ONCE);
 
     echo "Subscribed to topic: " . $topic . "\n";
