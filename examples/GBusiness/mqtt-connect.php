@@ -101,6 +101,12 @@ try {
             $message
         );
 
+        $message = json_decode($message, true);
+
+        if(in_array('payload', $message)) {
+            echo "You can create a session using this id: " . $message['payload']['uid'];
+        }
+
         // quit after first message
         $client->interrupt();
     }, MqttClient::QOS_AT_LEAST_ONCE);
