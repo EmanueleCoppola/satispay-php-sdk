@@ -25,7 +25,7 @@ $report = $satispayGBusinessClient->reports->create([
     'query_type' => 'PAYMENT_DATE_INTERVAL',
     'query_payload' => [
         'payment_date_from' => '2024-01-01',
-        'payment_date_to' => '2024-01-02',
+        'payment_date_to' => '2024-01-31',
         'time_zone' => 'Europe/Rome'
     ]
 ]);
