@@ -21,6 +21,14 @@ This software is currently mantained by:
     - [`SatispayGBusinessClient` daily closures](#satispaygbusinessclient-daily-closures)
     - [`SatispayGBusinessClient` consumers](#satispaygbusinessclient-consumers)
     - [`SatispayGBusinessClient` profile](#satispaygbusinessclient-profile)
+    - [`SatispayGBusinessClient` reports](#satispaygbusinessclient-reports)
+    - [`SatispayGBusinessClient` MQTT](#satispaygbusinessclient-mqtt)
+    - [`SatispayGBusinessClient` sessions](#satispaygbusinessclient-sessions)
+    - [`SatispayGAgentClient` payments](#satispaygagentclient-payments)
+    - [`SatispayGAgentClient` receipts](#satispaygagentclient-receipts)
+    - [`SatispayGAgentClient` report requests](#satispaygagentclient-report-requests)
+    - [`SatispayGAgentClient` invoices](#satispaygagentclient-invoices)
+
 
 ## Get Started
 
@@ -175,7 +183,7 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
 
         // the two OS_ headers have a default value set by reading your PHP installation
         SatispayHeaders::OS => 'your os',
-        SatispayHeaders::OS_VERSION => 'your os versione',
+        SatispayHeaders::OS_VERSION => 'your os version',
 
         // the following headers are highly suggested
         SatispayHeaders::APP_SOFTWARE_HOUSE => 'your software house name',
@@ -364,4 +372,217 @@ $satispayGBusinessClient = new SatispayGBusinessClient([...]);
 
 // Get profile
 $satispayProfile = $satispayGBusinessClient->profile->me();
+```
+
+---
+
+### `SatispayGBusinessClient` reports
+
+Official documentation and code examples:
+- [Create report](https://developers.satispay.com/reference/create-new-report) -> [code example](examples/GBusiness/report-create.php)
+- [Get report](https://developers.satispay.com/reference/retrieve-a-report) -> [code example](examples/GBusiness/report-get.php)
+- [Get reports](https://developers.satispay.com/reference/get-list-of-reports) -> [code example](examples/GBusiness/report-all.php)
+
+```php
+use EmanueleCoppola\Satispay\SatispayGBusinessClient;
+
+$satispayGBusinessClient = new SatispayGBusinessClient([...]);
+
+// Create report
+$satispayReport = $satispayGBusinessClient->reports->create([
+    'type' => 'PAYMENT_FEE',
+    'format' => 'CSV',
+    'query_type' => 'PAYMENT_DATE_INTERVAL',
+    'query_payload' => [
+        'payment_date_from' => '2024-01-01',
+        'payment_date_to' => '2024-01-31',
+        'time_zone' => 'Europe/Rome'
+    ]
+]);
+
+// Get report
+$satispayReport = $satispayGBusinessClient->reports->get('6f90eab2-c900-4e2e-9735-cb306ddf2263');
+
+// Get reports
+$satispayReports = $satispayGBusinessClient->reports->all();
+```
+
+---
+
+### `SatispayGBusinessClient` MQTT
+
+Official documentation and code examples:
+- [Authenticate](https://developers.satispay.com/reference/create-mqtt-certificates) -> [code example](examples/GBusiness/mqtt-authenticate.php)
+- [Subscribe](https://developers.satispay.com/reference/topic-subscription) -> [code example](examples/GBusiness/mqtt-connect.php)
+
+```php
+use EmanueleCoppola\Satispay\SatispayGBusinessClient;
+
+$satispayGBusinessClient = new SatispayGBusinessClient([...]);
+
+$satispayGBusinessClient->mqtt->authenticate();
+
+if ($satispayGBusinessClient->mqtt->ready()) {
+    $clientCertificate = $satispayGBusinessClient->mqtt->clientCertificate;
+    $clientCertificateKey = $satispayGBusinessClient->mqtt->clientCertificateKey;
+    $shopUid = $satispayGBusinessClient->mqtt->shopUid;
+}
+
+// once done, you can use them in an MQTT client to the Satispay APIs
+
+```
+
+---
+
+### `SatispayGBusinessClient` sessions
+
+The sessions are usually used in combination with MQTT.
+
+Official documentation and code examples:
+- [Session create](https://developers.satispay.com/reference/open-session) -> [code example](examples/GBusiness/session-create.php)
+- [Session get](https://developers.satispay.com/reference/get-session-details) -> [code example](examples/GBusiness/session-get.php)
+- [Session create event](https://developers.satispay.com/reference/create-session-event) -> [code example](examples/GBusiness/session-create-event.php)
+- [Session update](https://developers.satispay.com/reference/update-session) -> [code example](examples/GBusiness/session-update.php)
+
+```php
+use EmanueleCoppola\Satispay\SatispayGBusinessClient;
+
+$satispayGBusinessClient = new SatispayGBusinessClient([...]);
+
+// Session create
+$session = $satispayGBusinessClient->sessions->create([
+    'fund_lock_uid' => '0de7f8f2-1aa3-4a50-80bc-5f8fa8b21307',
+]);
+
+// Session get
+$session = $satispayGBusinessClient->sessions->get('8d1ad3b3-1f1c-4cdb-b874-c91210d2fe8a');
+
+// Session create event
+$sessionEvent = $satispayGBusinessClient->sessions->createEvent(
+    '8d1ad3b3-1f1c-4cdb-b874-c91210d2fe8a',
+    [
+        'operation' => 'ADD', // or REMOVE
+        'amount_unit' => 2 * 100,
+        'currency' => 'EUR'
+    ]
+);
+
+// Session update
+$session = $satispayGBusinessClient->sessions->update(
+    '8d1ad3b3-1f1c-4cdb-b874-c91210d2fe8a',
+    [
+        'action' => 'CLOSE',
+    ]
+);
+```
+
+---
+
+### `SatispayGAgentClient` payments
+
+Official documentation and code examples:
+- [Create PagoPA payment](https://connect.satispay.com/reference/create-a-new-pagopa-payment) -> [code example](examples/GAgent/payment-create.php)
+- [Get PagoPA payment](https://connect.satispay.com/reference/retrieve-a-payment) -> [code example](examples/GAgent/payment-get.php)
+- [Get PagoPA payments](https://connect.satispay.com/reference/retrieve-all-payments) -> [code example](examples/GAgent/payment-all.php)
+- [Update PagoPA payment](https://connect.satispay.com/reference/update-a-pagopa-payment) -> [code example](examples/GAgent/payment-update.php)
+
+```php
+use EmanueleCoppola\Satispay\SatispayGAgentClient;
+
+$satispayGAgentClient = new SatispayGAgentClient([...]);
+
+// Create PagoPA payment
+$pagoPaPayment = $satispayGAgentClient->payments->create(
+    [
+        'request_type' => 'MANUAL',
+        'payment_notice_number' => 184924423482948483,
+        'domain_id' => '00000000000',
+        'amount_unit' => 150.99 * 100, // 150,99€
+    ]
+);
+
+// Get PagoPA payment
+$pagoPaPayment = $satispayGAgentClient->payments->get('1f4b5397-f60a-4a98-81f0-6f3aef88bb80');
+
+// Get PagoPA payments
+$pagoPaPayments = $satispayGAgentClient->payments->all();
+
+// Update PagoPA payment
+$pagoPaPayment = $satispayGAgentClient->payments->update(
+    '1f4b5397-f60a-4a98-81f0-6f3aef88bb80',
+    [
+        'status' => 'APPROVED',
+    ]
+);
+```
+
+---
+
+### `SatispayGAgentClient` receipts
+
+Official documentation and code examples:
+- [Get PagoPA receipt](https://connect.satispay.com/reference/get-receipt) -> [code example](examples/GAgent/receipt-get.php)
+
+```php
+use EmanueleCoppola\Satispay\SatispayGAgentClient;
+
+$satispayGAgentClient = new SatispayGAgentClient([...]);
+
+// Get PagoPA receipt
+$satispayPayment = $satispayGAgentClient->receipts->get('1f4b5397-f60a-4a98-81f0-6f3aef88bb80');
+```
+
+---
+
+### `SatispayGAgentClient` report requests
+
+Official documentation and code examples:
+- [Create PagoPA report request](https://connect.satispay.com/reference/a) -> [code example](examples/GAgent/report-request-create.php)
+- [Get PagoPA report request](https://connect.satispay.com/reference/create-a-new-pagopa-report-request-copy) -> [code example](examples/GAgent/report-request-get.php)
+- [Get PagoPA report requests](https://connect.satispay.com/reference/retrieve-a-pagopa-report-request-by-id-copy) -> [code example](examples/GAgent/report-request-all.php)
+
+```php
+use EmanueleCoppola\Satispay\SatispayGAgentClient;
+
+$satispayGAgentClient = new SatispayGAgentClient([...]);
+
+// Create PagoPA report request
+$pagoPaReportRequest = $satispayGAgentClient->reportRequests->create(
+    [
+        'from' => '2024-11-01',
+        'to' => '2024-11-30',
+        'time_zone' => 'Europe/Rome',
+        'format' => 'CSV'
+    ],
+    [
+        // SatispayHeaders::IDEMPOTENCY_KEY => 'myidempotency'
+    ]
+);
+
+// Get PagoPA report request
+$pagoPaReportRequest = $satispayGAgentClient->reportRequests->get('46808dc9-d36b-470d-b0cd-094b3b63a507');
+
+// Get PagoPA report requests
+$pagoPaReportRequests = $satispayGAgentClient->reportRequests->all();
+
+```
+
+---
+
+### `SatispayGAgentClient` invoices
+
+Official documentation and code examples:
+- [Create PagoPA invoice](https://connect.satispay.com/reference/retrieve-a-pagopa-invoice-by-id) -> [code example](examples/GAgent/invoice-get.php)
+- [Get PagoPA invoices](https://connect.satispay.com/reference/retrieve-all-invoices) -> [code example](examples/GAgent/invoice-all.php)
+
+```php
+use EmanueleCoppola\Satispay\SatispayGAgentClient;
+
+$satispayGAgentClient = new SatispayGAgentClient([...]);
+
+// Get PagoPA invoice
+$pagoPaInvoice = $satispayGAgentClient->invoices->get('2c79cb93-e48b-42a5-9a53-e7faf32d1f9d');
+
+// Get PagoPA invoices
+$pagoPaInvoices = $satispayGAgentClient->invoices->all();
 ```
