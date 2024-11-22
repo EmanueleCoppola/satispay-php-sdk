@@ -14,11 +14,24 @@ class OpenSSL_RSAService extends RSAServiceContract
 {
 
     /**
+     * The algorithm used for the signature.
+     */
+    const ALGORITHM = 'sha256WithRSAEncryption';
+
+    /**
      * @inheritdoc
      */
     public function isAvailable()
     {
-        return extension_loaded('openssl');
+        return
+            extension_loaded('openssl') &&
+            (
+                function_exists('openssl_get_md_methods') &&
+                in_array(
+                    self::ALGORITHM,
+                    openssl_get_md_methods(true)
+                )
+            );
     }
 
     /**
@@ -72,7 +85,7 @@ class OpenSSL_RSAService extends RSAServiceContract
 
         $privateKey = openssl_pkey_get_private($this->privateKey, $passphrase);
 
-        openssl_sign($string, $signed, $privateKey, OPENSSL_ALGO_SHA256);
+        openssl_sign($string, $signed, $privateKey, self::ALGORITHM);
 
         if (!$signed) {
             throw new SatispayRSAException('Signing failed: ' . openssl_error_string());
