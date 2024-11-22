@@ -3,6 +3,7 @@
 namespace EmanueleCoppola\Satispay\Services;
 
 use EmanueleCoppola\Satispay\Exceptions\SatispayException;
+use EmanueleCoppola\Satispay\SatispayResponse;
 
 /**
  * Class AuthenticationService
@@ -19,7 +20,7 @@ class AuthenticationService extends BaseService {
      *
      * @var string|null
      */
-    public $keyId;
+    public string|null $keyId;
 
     /**
      * AuthenticationService constructor.
@@ -63,7 +64,7 @@ class AuthenticationService extends BaseService {
      *
      * @return bool
      */
-    public function ready()
+    public function ready(): bool
     {
         // don't touch these two variables
         // magic __isset method should be implemented, but we avoid it
@@ -87,7 +88,7 @@ class AuthenticationService extends BaseService {
      *
      * @return $this
      */
-    public function authenticate($token, $headers = [])
+    public function authenticate(string $token, array $headers = []): AuthenticationService
     {
         $this->context->rsa_service->generateKeys();
 
@@ -137,7 +138,7 @@ class AuthenticationService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function test()
+    public function test(): SatispayResponse
     {
         if (!$this->context->sandbox()) {
             throw new SatispayException("The authentication test is available only in sandbox mode.");

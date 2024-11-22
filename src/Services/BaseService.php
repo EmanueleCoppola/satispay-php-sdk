@@ -20,7 +20,7 @@ abstract class BaseService {
      *
      * @param SatispayClient $context The context parameter, typically an instance of SatispayClient.
      */
-    public function __construct($context)
+    public function __construct(SatispayClient $context)
     {
         $this->context = $context;
     }

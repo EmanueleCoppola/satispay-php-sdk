@@ -17,7 +17,7 @@ class SeclibRSAService extends RSAServiceContract
     /**
      * @inheritdoc
      */
-    public function isAvailable()
+    public function isAvailable(): bool
     {
         return class_exists('phpseclib3\Crypt\RSA');
     }
@@ -25,7 +25,7 @@ class SeclibRSAService extends RSAServiceContract
     /**
      * @inheritdoc
      */
-    public function ensureAvailable()
+    public function ensureAvailable(): void
     {
         if (!$this->isAvailable()) {
             throw new SatispayRSAException("phpseclib3 is not installed!");
@@ -35,7 +35,7 @@ class SeclibRSAService extends RSAServiceContract
     /**
      * @inheritdoc
      */
-    public function generateKeys($bits = 4096)
+    public function generateKeys($bits = 4096): void
     {
         try {
             // Generate the private key
@@ -59,7 +59,7 @@ class SeclibRSAService extends RSAServiceContract
     /**
      * @inheritdoc
      */
-    public function sign($message)
+    public function sign($message): string
     {
         try {
             /** @var \phpseclib3\Crypt\RSA\PrivateKey $privateKey */

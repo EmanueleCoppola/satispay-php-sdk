@@ -27,7 +27,8 @@ class PaymentService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function create($body, $headers = []) {
+    public function create(array $body, array $headers = []): SatispayResponse
+    {
         $response = $this->context->http->post(
             '/g_business/v1/payments',
             $body,
@@ -71,7 +72,7 @@ class PaymentService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function get($id, $headers = [])
+    public function get(string $id, array $headers = []): SatispayResponse
     {
         $response = $this->context->http->get(
             '/g_business/v1/payments/' . $id,
@@ -99,7 +100,7 @@ class PaymentService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function update($id, $body = [], $headers = [])
+    public function update(string $id, array $body = [], array $headers = []): SatispayResponse
     {
         $response = $this->context->http->put(
             '/g_business/v1/payments/' . $id,
@@ -150,7 +151,7 @@ class PaymentService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function all($query = [], $headers = [])
+    public function all(array $query = [], array $headers = []): SatispayResponse
     {
         $response = $this->context->http->get(
             '/g_business/v1/payments',

@@ -22,7 +22,7 @@ class InvoiceService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function get($id, $headers = [])
+    public function get(string $id, array $headers = []): SatispayResponse
     {
         $response = $this->context->http->get(
             '/g_agent/v1/pagopa/invoices/' . $id,
@@ -46,7 +46,7 @@ class InvoiceService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function all($query = [], $headers = [])
+    public function all(array $query = [], array $headers = []): SatispayResponse
     {
         $response = $this->context->http->get(
             '/g_agent/v1/pagopa/invoices',

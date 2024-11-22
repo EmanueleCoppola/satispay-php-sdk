@@ -15,11 +15,11 @@ use EmanueleCoppola\Satispay\Services\BaseService;
 class ConsumerService extends BaseService {
 
     /**
-     * Retrieve details of a specific payment.
+     * Retrieve a consumer by the phone number.
      *
-     * @see https://developers.satispay.com/reference/get-the-details-of-a-payment
+     * @see https://developers.satispay.com/reference/retrive-consumer
      *
-     * @param string $id The ID of the payment to retrieve.
+     * @param string $number The phone number of the consumer.
      * @param array $headers Additional headers for the HTTP request.
      *
      * @throws SatispayException
@@ -27,7 +27,7 @@ class ConsumerService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function get($number, $headers = [])
+    public function get(string $number, array $headers = []): SatispayResponse
     {
         $response = $this->context->http->get(
             '/g_business/v1/consumers/' . $number,

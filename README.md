@@ -1,7 +1,7 @@
 # Satispay PHP SDK
 
 ![License](https://img.shields.io/github/license/EmanueleCoppola/satispay-php-sdk)
-![PHP Version](https://img.shields.io/badge/php-%3E%3D5.4-8892BF.svg)
+![PHP Version](https://img.shields.io/badge/php-%3E%3D7.0-8892BF.svg)
 
 This is the most complete PHP SDK for integrating the Satispay APIs.
 
@@ -32,7 +32,7 @@ This software is currently mantained by:
 
 ## Get Started
 
-> **Requires: [PHP 5.4+](https://php.net/releases/), [ext-curl](https://www.php.net/manual/en/book.curl.php), [ext-mbstring](https://www.php.net/manual/en/book.mbstring.php), [ext-json](https://www.php.net/manual/en/book.json.php)**
+> **Requires: [PHP 7.0+](https://php.net/releases/), [ext-curl](https://www.php.net/manual/en/book.curl.php), [ext-mbstring](https://www.php.net/manual/en/book.mbstring.php), [ext-json](https://www.php.net/manual/en/book.json.php)**
 
 First, install the SDK via the [Composer](https://getcomposer.org/) package manager:
 
@@ -40,7 +40,7 @@ First, install the SDK via the [Composer](https://getcomposer.org/) package mana
 composer require emanuelecoppola/satispay-php-sdk
 ```
 
-If you're using a 5.x PHP version be sure to use a Composer 2.x version that has `composer-runtime-api:^2`.<br>
+If you're using a 7.x PHP version be sure to use a Composer 2.x version that has `composer-runtime-api:^2`.<br>
 As per [Composer System Requirements](https://getcomposer.org/doc/00-intro.md#system-requirements):
 > Composer in its latest version requires PHP 7.2.5 to run. A long-term-support version (2.2.x) still offers support for PHP 5.3.2+ in case you are stuck with a legacy PHP version. A few sensitive php settings and compile flags are also required, but when using the installer you will be warned about any incompatibilities.
 

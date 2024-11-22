@@ -57,7 +57,7 @@ class SessionService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function get($id, $headers = [])
+    public function get(string $id, array $headers = []): SatispayResponse
     {
         $response = $this->context->http->get(
             '/g_business/v1/sessions/' . $id,
@@ -85,7 +85,7 @@ class SessionService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function update($id, $body = [], $headers = [])
+    public function update(string $id, array $body = [], array $headers = []): SatispayResponse
     {
         $response = $this->context->http->patch(
             '/g_business/v1/sessions/' . $id,
@@ -113,7 +113,8 @@ class SessionService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function createEvent($id, $body, $headers = []) {
+    public function createEvent(string $id, array $body, array $headers = []): SatispayResponse
+    {
         $response = $this->context->http->post(
             '/g_business/v1/sessions/' . $id . '/events',
             $body,

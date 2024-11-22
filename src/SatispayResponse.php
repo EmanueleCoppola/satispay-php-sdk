@@ -18,28 +18,28 @@ class SatispayResponse {
      *
      * @var ResponseInterface
      */
-    public $response;
+    public ResponseInterface $response;
 
     /**
      * The client that created the request.
      *
      * @var SatispayClient
      */
-    private $context;
+    private SatispayClient $context;
 
     /**
      * The memoized response array.
      *
      * @var array|null
      */
-    private $_toArray = null;
+    private array|null $_toArray = null;
 
     /**
      * The memoized response object.
      *
      * @var object|null
      */
-    private $_toObject = null;
+    private object|null $_toObject = null;
 
     /**
      * SatispayResponse constructor.
@@ -60,7 +60,7 @@ class SatispayResponse {
      *
      * @throws UnsupportedMediaTypeException
      */
-    public function checkExceptions($exceptions = [])
+    public function checkExceptions(array $exceptions = []): void
     {
         // Example
         //
@@ -93,7 +93,7 @@ class SatispayResponse {
      *
      * @throws SatispayResponseException
      */
-    protected function checkSharedExceptions()
+    protected function checkSharedExceptions(): void
     {
         $statusCode = $this->getStatusCode();
 
@@ -110,7 +110,7 @@ class SatispayResponse {
      *
      * @return int
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->response->getStatusCode();
     }
@@ -120,7 +120,7 @@ class SatispayResponse {
      *
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->response->getHeaders();
     }
@@ -130,7 +130,7 @@ class SatispayResponse {
      *
      * @return string
      */
-    public function getEnv()
+    public function getEnv(): string
     {
         return $this->context->sandbox() ? 'sandbox' : 'production';
     }
@@ -140,7 +140,7 @@ class SatispayResponse {
      *
      * @return string|null
      */
-    public function getCID()
+    public function getCID(): string|null
     {
         $headers = $this->response->getHeaders();
 
@@ -161,7 +161,7 @@ class SatispayResponse {
      *
      * @return int
      */
-    public function getErrorCode()
+    public function getErrorCode(): int
     {
         $response = $this->toArray();
 
@@ -177,7 +177,7 @@ class SatispayResponse {
      *
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         $response = $this->toArray();
 
@@ -193,7 +193,7 @@ class SatispayResponse {
      *
      * @return ResponseInterface
      */
-    public function toResponse()
+    public function toResponse(): ResponseInterface
     {
         return $this->response;
     }
@@ -203,7 +203,7 @@ class SatispayResponse {
      *
      * @return string
      */
-    public function toJson()
+    public function toJson(): string
     {
         return $this->response->getBody();
     }
@@ -213,7 +213,7 @@ class SatispayResponse {
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         if (!$this->_toArray) {
             $this->_toArray = json_decode($this->response->getBody(), true);
@@ -227,7 +227,7 @@ class SatispayResponse {
      *
      * @return object
      */
-    public function toObject()
+    public function toObject(): object
     {
         if (!$this->_toObject) {
             $this->_toObject = json_decode($this->response->getBody());

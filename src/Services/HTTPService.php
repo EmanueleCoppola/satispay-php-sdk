@@ -28,49 +28,49 @@ class HTTPService extends BaseService {
      *
      * @var ClientInterface
      */
-    private $httpClient;
+    private ClientInterface $httpClient;
 
     /**
      * The factory for creating PSR-7 requests.
      *
      * @var RequestFactoryInterface
      */
-    private $requestFactory;
+    private RequestFactoryInterface $requestFactory;
 
     /**
      * The factory for creating PSR-7 responses.
      *
      * @var ResponseFactoryInterface
      */
-    // private $responseFactory;
+    // private ResponseFactoryInterface $responseFactory;
 
     /**
      * The factory for creating PSR-7 server requests.
      *
      * @var ServerRequestFactoryInterface
      */
-    // private $serverRequestFactory;
+    // private ServerRequestFactoryInterface $serverRequestFactory;
 
     /**
      * The factory for creating PSR-7 streams.
      *
      * @var StreamFactoryInterface
      */
-    private $streamFactory;
+    private StreamFactoryInterface $streamFactory;
 
     /**
      * The factory for creating PSR-7 uploaded files.
      *
      * @var UploadedFileFactoryInterface
      */
-    // private $uploadedFileFactory;
+    // private UploadedFileFactoryInterface $uploadedFileFactory;
 
     /**
      * The factory for creating PSR-7 URIs.
      *
      * @var UriFactoryInterface
      */
-    // private $uriFactory;
+    // private UriFactoryInterface $uriFactory;
 
     /**
      * Default headers for HTTP requests.
@@ -123,13 +123,13 @@ class HTTPService extends BaseService {
      *
      * @param string $method The HTTP method (e.g., GET, POST).
      * @param string $path The path portion of the URL.
-     * @param mixed $body The request body.
+     * @param array|null $body The request body.
      * @param array $headers Additional headers for the request.
      * @param bool $signed Indicates whether the request should be signed.
      *
      * @return ResponseInterface
      */
-    public function request($method, $path, $body = null, $headers = [], $signed = true)
+    public function request(string $method, string $path, array|null $body = null, array $headers = [], bool $signed = true): ResponseInterface
     {
         $path = '/' . ltrim($path, '/');
 
@@ -173,7 +173,7 @@ class HTTPService extends BaseService {
      *
      * @return array
      */
-    private function signedHeaders($url, $path, $method, $body, $headers = [])
+    private function signedHeaders(string $url, string $path, string $method, string $body, array $headers = []): array
     {
         // these headers will be explicitely sent by the HTTP client as headers
         // they will be used for both signature and the request
@@ -234,7 +234,7 @@ class HTTPService extends BaseService {
      *
      * @return string
      */
-    private function http_build_query($data)
+    private function http_build_query(array $data): string
     {
         $query = [];
 
@@ -262,7 +262,7 @@ class HTTPService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function post($path, $body, $headers = [], $signed = true)
+    public function post(string $path, array|null $body, array $headers = [], bool $signed = true): SatispayResponse
     {
         return new SatispayResponse(
             $this->request('POST', $path, $body, $headers, $signed),
@@ -280,7 +280,7 @@ class HTTPService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function get($path, $query = [], $headers = [], $signed = true)
+    public function get(string $path, array $query = [], array $headers = [], bool $signed = true): SatispayResponse
     {
         if (!empty($query)) {
             $path .= '?' . $this->http_build_query($query);
@@ -302,7 +302,7 @@ class HTTPService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function put($path, $body, $headers = [], $signed = true)
+    public function put(string $path, array|null $body, array $headers = [], bool $signed = true): SatispayResponse
     {
         return new SatispayResponse(
             $this->request('PUT', $path, $body, $headers, $signed),
@@ -320,7 +320,7 @@ class HTTPService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function patch($path, $body, $headers = [], $signed = true)
+    public function patch(string $path, array|null $body, array $headers = [], bool $signed = true): SatispayResponse
     {
         return new SatispayResponse(
             $this->request('PATCH', $path, $body, $headers, $signed),

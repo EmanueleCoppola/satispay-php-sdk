@@ -21,7 +21,7 @@ class OpenSSL_RSAService extends RSAServiceContract
     /**
      * @inheritdoc
      */
-    public function isAvailable()
+    public function isAvailable(): bool
     {
         return
             extension_loaded('openssl') &&
@@ -37,7 +37,7 @@ class OpenSSL_RSAService extends RSAServiceContract
     /**
      * @inheritdoc
      */
-    public function ensureAvailable()
+    public function ensureAvailable(): void
     {
         if (!$this->isAvailable()) {
             throw new SatispayRSAException("OpenSSL is not installed!");
@@ -47,7 +47,7 @@ class OpenSSL_RSAService extends RSAServiceContract
     /**
      * @inheritdoc
      */
-    public function generateKeys($bits = 4096)
+    public function generateKeys($bits = 4096): void
     {
         $pkeyResource = openssl_pkey_new([
             'digest_alg' => 'sha256',
@@ -79,7 +79,7 @@ class OpenSSL_RSAService extends RSAServiceContract
     /**
      * @inheritdoc
      */
-    public function sign($string)
+    public function sign($string): string
     {
         $passphrase = !$this->passphrase ? '' : $this->passphrase;
 

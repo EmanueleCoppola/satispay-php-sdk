@@ -19,33 +19,33 @@ class SatispayGAgentClient extends SatispayClient {
      *
      * @var PaymentService
      */
-    public $payments;
+    public PaymentService $payments;
 
     /**
      * The service that handles invoices APIs.
      *
      * @var InvoiceService
      */
-    public $invoices;
+    public InvoiceService $invoices;
 
     /**
      * The service that handles receipts APIs.
      *
      * @var ReceiptService
      */
-    public $receipts;
+    public ReceiptService $receipts;
 
     /**
      * The service that handles report requests APIs.
      *
      * @var ReportRequestService
      */
-    public $reportRequests;
+    public ReportRequestService $reportRequests;
 
     /**
      * @inheritdoc
      */
-    protected function boot($config)
+    protected function boot(array $config): void
     {
         $this->payments = new PaymentService($this);
 

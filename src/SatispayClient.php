@@ -54,28 +54,28 @@ class SatispayClient {
      *
      * @var array<string, mixed>
      */
-    private $config;
+    private array $config;
 
     /**
      * HTTP service instance for handling API requests.
      *
      * @var HTTPService
      */
-    public $http;
+    public HTTPService $http;
 
     /**
      * Authentication service instance for managing authentication with the Satispay API.
      *
      * @var AuthenticationService
      */
-    public $authentication;
+    public AuthenticationService $authentication;
 
     /**
      * RSA service instance for managing RSA keys.
      *
      * @var RSAServiceContract
      */
-    public $rsa_service;
+    public RSAServiceContract $rsa_service;
 
     //
     const STAGING_BASE_URL = 'https://staging.authservices.satispay.com';
@@ -89,7 +89,7 @@ class SatispayClient {
      *
      * @param array<string, mixed> $config Configuration options for the client.
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $this->config = array_merge(
             self::DEFAULT_CONFIG,
@@ -129,14 +129,14 @@ class SatispayClient {
      *
      * @return void
      */
-    protected function boot($config) {}
+    protected function boot(array $config): void {}
 
     /**
      * Retrieve the package version installed.
      *
      * @return string
      */
-    protected function version()
+    protected function version(): string
     {
         return InstalledVersions::getPrettyVersion(self::LIBRARY_NAME);
     }
@@ -152,14 +152,14 @@ class SatispayClient {
      *
      * @throws SatispayRSAException if non of the services is available.
      *
-     * @return RSAServiceContract|void
+     * @return RSAServiceContract
      */
     private function resolveRSAService(
         $RSAServices,
         $publicKey = null,
         $privateKey = null,
         $passphrase = null
-    )
+    ): RSAServiceContract
     {
         $RSAService = (array) $RSAServices;
 
@@ -181,7 +181,7 @@ class SatispayClient {
      *
      * @return array
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->config;
     }
@@ -191,7 +191,7 @@ class SatispayClient {
      *
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         if (key_exists('headers', $this->config)) {
             return $this->config['headers'];
@@ -205,7 +205,7 @@ class SatispayClient {
      *
      * @return bool
      */
-    public function sandbox()
+    public function sandbox(): bool
     {
         return $this->config['sandbox'] === true;
     }
@@ -220,7 +220,7 @@ class SatispayClient {
      *
      * @return SatispayResponse
      */
-    public function post($path, $body, $headers = [], $signed = true)
+    public function post(string $path, array|null $body, array $headers = [], bool $signed = true): SatispayResponse
     {
         $response = $this->http->post($path, $body, $headers, $signed);
 
@@ -239,7 +239,7 @@ class SatispayClient {
      *
      * @return SatispayResponse
      */
-    public function get($path, $query = [], $headers = [], $signed = true)
+    public function get(string $path, array $query = [], array $headers = [], bool $signed = true): SatispayResponse
     {
         $response = $this->http->get($path, $query, $headers, $signed);
 
@@ -258,7 +258,7 @@ class SatispayClient {
      *
      * @return SatispayResponse
      */
-    public function put($path, $body, $headers = [], $signed = true)
+    public function put(string $path, array|null $body, array $headers = [], $signed = true)
     {
         $response = $this->http->put($path, $body, $headers, $signed);
 
@@ -277,7 +277,7 @@ class SatispayClient {
      *
      * @return SatispayResponse
      */
-    public function patch($path, $body, $headers = [], $signed = true)
+    public function patch(string $path, array $body, array $headers = [], bool $signed = true): SatispayResponse
     {
         $response = $this->http->patch($path, $body, $headers, $signed);
 

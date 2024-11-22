@@ -26,7 +26,7 @@ class ProfileService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function me($headers = [])
+    public function me(array $headers = []): SatispayResponse
     {
         $response = $this->context->http->get(
             '/g_business/v1/profile/me',

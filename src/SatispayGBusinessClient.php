@@ -34,61 +34,61 @@ class SatispayGBusinessClient extends SatispayClient {
      *
      * @var ProfileService
      */
-    public $profile;
+    public ProfileService $profile;
 
     /**
      * The service that handles /consumers APIs.
      *
      * @var ConsumerService
      */
-    public $consumers;
+    public ConsumerService $consumers;
 
     /**
      * The service that handles /payments APIs.
      *
      * @var PaymentService
      */
-    public $payments;
+    public PaymentService $payments;
 
     /**
      * The service that handles /pre_authorized_payment_tokens APIs.
      *
      * @var PreAuthorizationService
      */
-    public $preAuthorizations;
+    public PreAuthorizationService $preAuthorizations;
 
     /**
      * The service that handles /reports APIs.
      *
      * @var ReportService
      */
-    public $reports;
+    public ReportService $reports;
 
     /**
      * The service that handles /daily_closure APIs.
      *
      * @var DailyClosureService
      */
-    public $dailyClosures;
+    public DailyClosureService $dailyClosures;
 
     /**
      * The service that handles the MQTT connection.
      *
      * @var MQTTService
      */
-    public $mqtt;
+    public MQTTService $mqtt;
 
     /**
      * The service that handles the /sessions APIs.
      *
      * @var SessionService
      */
-    public $sessions;
+    public SessionService $sessions;
 
     /**
      * @inheritdoc
      */
-    protected function boot($config)
+    protected function boot(array $config): void
     {
         $this->profile = new ProfileService($this);
 

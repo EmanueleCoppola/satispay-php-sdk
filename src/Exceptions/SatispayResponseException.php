@@ -10,13 +10,13 @@ use EmanueleCoppola\Satispay\SatispayResponse;
  * The class representing an exception related to Satispay responses.
  */
 class SatispayResponseException extends SatispayException {
-    
+
     /**
      * The Satispay response where the exception has been thrown.
      *
      * @var SatispayResponse
      */
-    protected $response;
+    protected SatispayResponse $response;
 
     /**
      * BaseResponseException constructor.
@@ -24,7 +24,7 @@ class SatispayResponseException extends SatispayException {
      * @param SatispayResponse $satispayResponse The SatispayResponse object representing the API response.
      * @param string|null The message shown in the exception.
      */
-    public function __construct(SatispayResponse $satispayResponse, $message = null)
+    public function __construct(SatispayResponse $satispayResponse, string|null $message = null)
     {
         $this->response = $satispayResponse;
         $this->code = $satispayResponse->getErrorCode();
@@ -51,7 +51,7 @@ class SatispayResponseException extends SatispayException {
      *
      * @return string
      */
-    public function getCID()
+    public function getCID(): string
     {
         return $this->response->getCID();
     }
@@ -61,7 +61,7 @@ class SatispayResponseException extends SatispayException {
      *
      * @return string
      */
-    public function getEnv()
+    public function getEnv(): string
     {
         return $this->response->getCID();
     }

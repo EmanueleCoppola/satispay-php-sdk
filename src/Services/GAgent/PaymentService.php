@@ -70,7 +70,7 @@ class PaymentService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function update($id, $body = [], $headers = [])
+    public function update(string $id, array $body = [], array $headers = []): SatispayResponse
     {
         $response = $this->context->http->patch(
             '/g_agent/v1/pagopa/payments/' . $id,
@@ -94,7 +94,7 @@ class PaymentService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function all($query = [], $headers = [])
+    public function all(array $query = [], array $headers = []): SatispayResponse
     {
         $response = $this->context->http->get(
             '/g_agent/v1/pagopa/payments',

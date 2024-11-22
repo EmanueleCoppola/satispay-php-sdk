@@ -28,7 +28,7 @@ class DailyClosureService extends BaseService {
      *
      * @return SatispayResponse
      */
-    public function get($date, $query = [], $headers = [])
+    public function get(string $date, array $query = [], array $headers = []): SatispayResponse
     {
         $response = $this->context->http->get(
             '/g_business/v1/daily_closure/' . $date,

@@ -4,6 +4,7 @@ namespace EmanueleCoppola\Satispay\Services\GBusiness;
 
 use EmanueleCoppola\Satispay\Exceptions\SatispayException;
 use EmanueleCoppola\Satispay\Exceptions\SatispayResponseException;
+use EmanueleCoppola\Satispay\SatispayClient;
 use EmanueleCoppola\Satispay\Services\BaseService;
 
 /**
@@ -18,47 +19,55 @@ class MQTTService extends BaseService {
      *
      * @var string|null
      */
-    public $host;
+    public string|null $host;
 
     /**
      * The port used for the MQTT connection.
      *
-     * @var string|null
+     * @var int|null
      */
-    public $port;
+    public int|null $port;
 
     /**
      * The client certificate to be used with MQTT connections.
      *
      * @var string|null
      */
-    public $clientCertificate;
+    public string|null $clientCertificate;
 
     /**
      * The client certificate key to be used with MQTT connections.
      *
      * @var string|null
      */
-    public $clientCertificateKey;
+    public string|null $clientCertificateKey;
 
     /**
      * The shop uid required for MQTT subscription.
      *
      * @var string|null
      */
-    public $shopUid;
+    public string|null $shopUid;
 
     /**
      * MQTTService constructor.
      *
      * @inheritdoc
+     *
+     * @param SatispayClient $context The context parameter, typically an instance of SatispayClient.
      * @param string|null $host The host used for the MQTT connection.
      * @param string|null $port The port used for the MQTT connection.
      * @param string|null $clientCertificate The client certificate to be used with MQTT connections.
      * @param string|null $clientCertificateKey The client certificate key to be used with MQTT connections.
      * @param string|null $shopUid The shop uid required for MQTT subscription.
      */
-    public function __construct($context, $host = null, $port = 8883, $clientCertificate = null, $clientCertificateKey = null, $shopUid = null)
+    public function __construct(
+        SatispayClient $context,
+        string $host = null,
+        int $port = 8883,
+        string $clientCertificate = null,
+        string $clientCertificateKey = null,
+        string $shopUid = null)
     {
         parent::__construct($context);
 
@@ -80,7 +89,7 @@ class MQTTService extends BaseService {
      *
      * @return bool
      */
-    public function ready()
+    public function ready(): bool
     {
         return !(
             (empty($this->host) && empty($this->port)) ||
@@ -98,7 +107,7 @@ class MQTTService extends BaseService {
      * @throws SatispayException if authentication parameters are not set.
      * @return void
      */
-    protected function ensureReady()
+    protected function ensureReady(): void
     {
         if (!$this->ready()) {
             throw new SatispayException('Please authenticate to MQTT first!');
@@ -111,14 +120,14 @@ class MQTTService extends BaseService {
      * @see https://developers.satispay.com/reference/create-mqtt-certificates
      *
      * @param array $payload The payload data for creating an MQTT certificate.
-     * @param array $headers Additional headers for the HTTP request.
      *
      * @throws SatispayException
      * @throws SatispayResponseException
      *
-     * @return $this
+     * @return MQTTService
      */
-    public function authenticate($headers = []) {
+    public function authenticate(array $headers = []): MQTTService
+    {
         $response = $this->context->http->post(
             '/g_business/v1/mqtt_certificates',
             [],
@@ -149,7 +158,7 @@ class MQTTService extends BaseService {
      * @throws SatispayException
      * @return string
      */
-    public function clientId()
+    public function clientId(): string
     {
         $this->ensureReady();
 
@@ -168,7 +177,7 @@ class MQTTService extends BaseService {
      * @throws SatispayException
      * @return string
      */
-    public function fundLockTopic()
+    public function fundLockTopic(): string
     {
         $this->ensureReady();
 
