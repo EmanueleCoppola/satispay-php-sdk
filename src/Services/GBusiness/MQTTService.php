@@ -4,7 +4,6 @@ namespace EmanueleCoppola\Satispay\Services\GBusiness;
 
 use EmanueleCoppola\Satispay\Exceptions\SatispayException;
 use EmanueleCoppola\Satispay\Exceptions\SatispayResponseException;
-use EmanueleCoppola\Satispay\SatispayResponse;
 use EmanueleCoppola\Satispay\Services\BaseService;
 
 /**
