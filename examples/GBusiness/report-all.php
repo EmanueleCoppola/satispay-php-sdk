@@ -19,15 +19,6 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
     'sandbox' => true
 ]);
 
-$report = $satispayGBusinessClient->reports->create([
-    'type' => 'PAYMENT_FEE',
-    'format' => 'CSV',
-    'query_type' => 'PAYMENT_DATE_INTERVAL',
-    'query_payload' => [
-        'payment_date_from' => '2024-01-01',
-        'payment_date_to' => '2024-01-02',
-        'time_zone' => 'Europe/Rome'
-    ]
-]);
+$reports = $satispayGBusinessClient->reports->all();
 
-echo $report->toJson();
+echo $reports->toJson();
