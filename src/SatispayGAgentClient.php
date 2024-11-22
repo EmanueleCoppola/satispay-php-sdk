@@ -2,6 +2,7 @@
 
 namespace EmanueleCoppola\Satispay;
 
+use EmanueleCoppola\Satispay\Services\GAgent\InvoiceService;
 use EmanueleCoppola\Satispay\Services\GAgent\PaymentService;
 use EmanueleCoppola\Satispay\Services\GAgent\ReceiptService;
 
@@ -20,6 +21,13 @@ class SatispayGAgentClient extends SatispayClient {
     public $payments;
 
     /**
+     * The service that handles invoices APIs.
+     *
+     * @var InvoiceService
+     */
+    public $invoices;
+
+    /**
      * The service that handles receipts APIs.
      *
      * @var ReceiptService
@@ -32,6 +40,8 @@ class SatispayGAgentClient extends SatispayClient {
     protected function boot($config)
     {
         $this->payments = new PaymentService($this);
+
+        $this->invoices = new InvoiceService($this);
 
         $this->receipts = new ReceiptService($this);
     }
