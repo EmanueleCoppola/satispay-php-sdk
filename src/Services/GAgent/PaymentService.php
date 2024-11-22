@@ -64,7 +64,7 @@ class PaymentService extends BaseService {
      */
     public function update($id, $body = [], $headers = [])
     {
-        return $this->context->http->put(
+        return $this->context->http->patch(
             '/g_agent/v1/pagopa/payments/' . $id,
             $body,
             true,
