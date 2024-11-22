@@ -24,11 +24,15 @@ class ReceiptService extends BaseService {
      */
     public function get($id, $headers = [])
     {
-        return $this->context->http->get(
+        $response = $this->context->http->get(
             '/g_agent/v1/pagopa/payments/' . $id . '/receipt',
             [],
             true,
             $headers
         );
+
+        $response->checkExceptions();
+
+        return $response;
     }
 }

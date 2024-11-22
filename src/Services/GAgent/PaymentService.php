@@ -23,12 +23,16 @@ class PaymentService extends BaseService {
      * @return SatispayResponse
      */
     public function create($payload, $headers = []) {
-        return $this->context->http->post(
+        $response = $this->context->http->post(
             '/g_agent/v1/pagopa/payments',
             $payload,
             true,
             $headers
         );
+
+        $response->checkExceptions();
+
+        return $response;
     }
 
     /**
@@ -43,12 +47,16 @@ class PaymentService extends BaseService {
      */
     public function get($id, $headers = [])
     {
-        return $this->context->http->get(
+        $response = $this->context->http->get(
             '/g_agent/v1/pagopa/payments/' . $id,
             [],
             true,
             $headers
         );
+
+        $response->checkExceptions();
+
+        return $response;
     }
 
     /**
@@ -64,12 +72,16 @@ class PaymentService extends BaseService {
      */
     public function update($id, $body = [], $headers = [])
     {
-        return $this->context->http->patch(
+        $response = $this->context->http->patch(
             '/g_agent/v1/pagopa/payments/' . $id,
             $body,
             true,
             $headers
         );
+
+        $response->checkExceptions();
+
+        return $response;
     }
 
     /**
@@ -84,11 +96,15 @@ class PaymentService extends BaseService {
      */
     public function all($query = [], $headers = [])
     {
-        return $this->context->http->get(
+        $response = $this->context->http->get(
             '/g_agent/v1/pagopa/payments',
             $query,
             true,
             $headers
         );
+
+        $response->checkExceptions();
+
+        return $response;
     }
 }

@@ -33,6 +33,8 @@ class ReportRequestService extends BaseService {
             $headers
         );
 
+        $response->checkExceptions();
+
         return $response;
     }
 
@@ -48,12 +50,16 @@ class ReportRequestService extends BaseService {
      */
     public function get($id, $headers = [])
     {
-        return $this->context->http->get(
+        $response = $this->context->http->get(
             '/g_agent/v1/pagopa/report_requests/' . $id,
             [],
             true,
             $headers
         );
+
+        $response->checkExceptions();
+
+        return $response;
     }
 
     /**
@@ -68,11 +74,15 @@ class ReportRequestService extends BaseService {
      */
     public function all($query = [], $headers = [])
     {
-        return $this->context->http->get(
+        $response = $this->context->http->get(
             '/g_agent/v1/pagopa/report_requests',
             $query,
             true,
             $headers
         );
+
+        $response->checkExceptions();
+
+        return $response;
     }
 }

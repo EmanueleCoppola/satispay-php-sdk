@@ -24,12 +24,16 @@ class InvoiceService extends BaseService {
      */
     public function get($id, $headers = [])
     {
-        return $this->context->http->get(
+        $response = $this->context->http->get(
             '/g_agent/v1/pagopa/invoices/' . $id,
             [],
             true,
             $headers
         );
+
+        $response->checkExceptions();
+
+        return $response;
     }
 
     /**
@@ -44,11 +48,15 @@ class InvoiceService extends BaseService {
      */
     public function all($query = [], $headers = [])
     {
-        return $this->context->http->get(
+        $response = $this->context->http->get(
             '/g_agent/v1/pagopa/invoices',
             $query,
             true,
             $headers
         );
+
+        $response->checkExceptions();
+
+        return $response;
     }
 }
