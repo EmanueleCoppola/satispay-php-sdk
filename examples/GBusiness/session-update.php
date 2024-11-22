@@ -19,7 +19,6 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
     'sandbox' => true
 ]);
 
-// session.id can be used to update the session
 $session = $satispayGBusinessClient->sessions->update(
     '8d1ad3b3-1f1c-4cdb-b874-c91210d2fe8a',
     [

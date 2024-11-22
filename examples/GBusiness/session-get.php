@@ -19,9 +19,6 @@ $satispayGBusinessClient = new SatispayGBusinessClient([
     'sandbox' => true
 ]);
 
-// session.id in the MQTT message can be used to create events on the session
-$session = $satispayGBusinessClient->sessions->create([
-    'fund_lock_uid' => '0de7f8f2-1aa3-4a50-80bc-5f8fa8b21307',
-]);
+$session = $satispayGBusinessClient->sessions->get('8d1ad3b3-1f1c-4cdb-b874-c91210d2fe8a');
 
 echo $session->toJson();
