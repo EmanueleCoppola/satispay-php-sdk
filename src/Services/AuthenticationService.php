@@ -97,8 +97,8 @@ class AuthenticationService extends BaseService {
                 'public_key' => $this->context->rsa_service->publicKey,
                 'token' => $token
             ],
-            false,
-            $headers
+            $headers,
+            false
         );
 
         $response->checkExceptions([

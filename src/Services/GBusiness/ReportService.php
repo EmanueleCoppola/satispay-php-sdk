@@ -31,8 +31,8 @@ class ReportService extends BaseService {
         $response = $this->context->http->post(
             '/g_business/v1/reports',
             $body,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -58,8 +58,8 @@ class ReportService extends BaseService {
         $response = $this->context->http->get(
             '/g_business/v1/reports/' . $id,
             [],
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -85,8 +85,8 @@ class ReportService extends BaseService {
         $response = $this->context->http->get(
             '/g_business/v1/reports',
             $query,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();

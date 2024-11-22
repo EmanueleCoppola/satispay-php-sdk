@@ -32,8 +32,8 @@ class ConsumerService extends BaseService {
         $response = $this->context->http->get(
             '/g_business/v1/consumers/' . $number,
             [],
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();

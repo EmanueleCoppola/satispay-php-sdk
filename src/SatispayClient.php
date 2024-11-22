@@ -209,4 +209,80 @@ class SatispayClient {
     {
         return $this->config['sandbox'] === true;
     }
+
+    /**
+     * Make an HTTP POST request.
+     *
+     * @param string $path The path portion of the URL.
+     * @param array|null $body The request body.
+     * @param array $headers Additional headers for the request.
+     * @param bool $signed Indicates whether the request should be signed.
+     *
+     * @return SatispayResponse
+     */
+    public function post($path, $body, $headers = [], $signed = true)
+    {
+        $response = $this->http->post($path, $body, $headers, $signed);
+
+        $response->checkExceptions();
+
+        return $response;
+    }
+
+    /**
+     * Make an HTTP GET request.
+     *
+     * @param string $path The path portion of the URL.
+     * @param array $query The query parameters for the request.
+     * @param array $headers Additional headers for the request.
+     * @param bool $signed Indicates whether the request should be signed.
+     *
+     * @return SatispayResponse
+     */
+    public function get($path, $query = [], $headers = [], $signed = true)
+    {
+        $response = $this->http->get($path, $query, $headers, $signed);
+
+        $response->checkExceptions();
+
+        return $response;
+    }
+
+    /**
+     * Make an HTTP PUT request.
+     *
+     * @param string $path The path portion of the URL.
+     * @param array|null $body The request body.
+     * @param array $headers Additional headers for the request.
+     * @param bool $signed Indicates whether the request should be signed.
+     *
+     * @return SatispayResponse
+     */
+    public function put($path, $body, $headers = [], $signed = true)
+    {
+        $response = $this->http->put($path, $body, $headers, $signed);
+
+        $response->checkExceptions();
+
+        return $response;
+    }
+
+    /**
+     * Make an HTTP PATCH request.
+     *
+     * @param string $path The path portion of the URL.
+     * @param array|null $body The request body.
+     * @param array $headers Additional headers for the request.
+     * @param bool $signed Indicates whether the request should be signed.
+     *
+     * @return SatispayResponse
+     */
+    public function patch($path, $body, $headers = [], $signed = true)
+    {
+        $response = $this->http->patch($path, $body, $headers, $signed);
+
+        $response->checkExceptions();
+
+        return $response;
+    }
 }

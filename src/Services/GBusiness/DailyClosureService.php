@@ -33,8 +33,8 @@ class DailyClosureService extends BaseService {
         $response = $this->context->http->get(
             '/g_business/v1/daily_closure/' . $date,
             $query,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();

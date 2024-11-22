@@ -27,8 +27,8 @@ class ReceiptService extends BaseService {
         $response = $this->context->http->get(
             '/g_agent/v1/pagopa/payments/' . $id . '/receipt',
             [],
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();

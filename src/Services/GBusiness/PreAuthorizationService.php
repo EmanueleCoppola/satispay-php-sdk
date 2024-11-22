@@ -32,8 +32,8 @@ class PreAuthorizationService extends BaseService {
         $response = $this->context->http->post(
             '/g_business/v1/pre_authorized_payment_tokens',
             $body,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions([
@@ -63,8 +63,8 @@ class PreAuthorizationService extends BaseService {
         $response = $this->context->http->get(
             '/g_business/v1/pre_authorized_payment_tokens/' . $id,
             [],
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -91,8 +91,8 @@ class PreAuthorizationService extends BaseService {
         $response = $this->context->http->put(
             '/g_business/v1/pre_authorized_payment_tokens/' . $id,
             $body,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();

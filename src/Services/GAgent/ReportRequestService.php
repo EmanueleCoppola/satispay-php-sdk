@@ -29,8 +29,8 @@ class ReportRequestService extends BaseService {
         $response = $this->context->http->post(
             '/g_agent/v1/pagopa/report_requests',
             $body,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -53,8 +53,8 @@ class ReportRequestService extends BaseService {
         $response = $this->context->http->get(
             '/g_agent/v1/pagopa/report_requests/' . $id,
             [],
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -77,8 +77,8 @@ class ReportRequestService extends BaseService {
         $response = $this->context->http->get(
             '/g_agent/v1/pagopa/report_requests',
             $query,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();

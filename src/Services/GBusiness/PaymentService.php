@@ -31,8 +31,8 @@ class PaymentService extends BaseService {
         $response = $this->context->http->post(
             '/g_business/v1/payments',
             $body,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions([
@@ -76,8 +76,8 @@ class PaymentService extends BaseService {
         $response = $this->context->http->get(
             '/g_business/v1/payments/' . $id,
             [],
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -104,8 +104,8 @@ class PaymentService extends BaseService {
         $response = $this->context->http->put(
             '/g_business/v1/payments/' . $id,
             $body,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions([
@@ -155,8 +155,8 @@ class PaymentService extends BaseService {
         $response = $this->context->http->get(
             '/g_business/v1/payments',
             $query,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions([

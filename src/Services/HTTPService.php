@@ -124,13 +124,15 @@ class HTTPService extends BaseService {
      * @param string $method The HTTP method (e.g., GET, POST).
      * @param string $path The path portion of the URL.
      * @param mixed $body The request body.
-     * @param bool $signed Indicates whether the request should be signed.
      * @param array $headers Additional headers for the request.
+     * @param bool $signed Indicates whether the request should be signed.
      *
      * @return ResponseInterface
      */
-    public function request(string $method, string $path, $body = null, bool $signed = true, array $headers = [])
+    public function request($method, $path, $body = null, $headers = [], $signed = true)
     {
+        $path = '/' . ltrim($path, '/');
+
         $url = $this->baseUrl . $path;
 
         $request = $this->requestFactory->createRequest($method, $url);
@@ -171,7 +173,7 @@ class HTTPService extends BaseService {
      *
      * @return array
      */
-    private function signedHeaders(string $url, string $path, string $method, string $body, array $headers = [])
+    private function signedHeaders($url, $path, $method, $body, $headers = [])
     {
         // these headers will be explicitely sent by the HTTP client as headers
         // they will be used for both signature and the request
@@ -255,15 +257,15 @@ class HTTPService extends BaseService {
      *
      * @param string $path The path portion of the URL.
      * @param array|null $body The request body.
-     * @param bool $signed Indicates whether the request should be signed.
      * @param array $headers Additional headers for the request.
+     * @param bool $signed Indicates whether the request should be signed.
      *
      * @return SatispayResponse
      */
-    public function post($path, $body, $signed = true, $headers = [])
+    public function post($path, $body, $headers = [], $signed = true)
     {
         return new SatispayResponse(
-            $this->request('POST', $path, $body, $signed, $headers),
+            $this->request('POST', $path, $body, $headers, $signed),
             $this->context
         );
     }
@@ -273,19 +275,19 @@ class HTTPService extends BaseService {
      *
      * @param string $path The path portion of the URL.
      * @param array $query The query parameters for the request.
-     * @param bool $signed Indicates whether the request should be signed.
      * @param array $headers Additional headers for the request.
+     * @param bool $signed Indicates whether the request should be signed.
      *
      * @return SatispayResponse
      */
-    public function get($path, $query = [], $signed = true, $headers = [])
+    public function get($path, $query = [], $headers = [], $signed = true)
     {
         if (!empty($query)) {
             $path .= '?' . $this->http_build_query($query);
         }
 
         return new SatispayResponse(
-            $this->request('GET', $path, null, $signed, $headers),
+            $this->request('GET', $path, null, $headers, $signed),
             $this->context
         );
     }
@@ -295,15 +297,15 @@ class HTTPService extends BaseService {
      *
      * @param string $path The path portion of the URL.
      * @param array|null $body The request body.
-     * @param bool $signed Indicates whether the request should be signed.
      * @param array $headers Additional headers for the request.
+     * @param bool $signed Indicates whether the request should be signed.
      *
      * @return SatispayResponse
      */
-    public function put($path, $body, $signed = true, $headers = [])
+    public function put($path, $body, $headers = [], $signed = true)
     {
         return new SatispayResponse(
-            $this->request('PUT', $path, $body, $signed, $headers),
+            $this->request('PUT', $path, $body, $headers, $signed),
             $this->context
         );
     }
@@ -311,17 +313,17 @@ class HTTPService extends BaseService {
     /**
      * Make an HTTP PATCH request.
      *
-     * @param string $url The URL of the HTTP request.
+     * @param string $path The path portion of the URL.
      * @param array|null $body The request body.
-     * @param bool $signed Indicates whether the request should be signed.
      * @param array $headers Additional headers for the request.
+     * @param bool $signed Indicates whether the request should be signed.
      *
      * @return SatispayResponse
      */
-    public function patch($url, $body, $signed = true, $headers = [])
+    public function patch($path, $body, $headers = [], $signed = true)
     {
         return new SatispayResponse(
-            $this->request('PATCH', $url, $body, $signed, $headers),
+            $this->request('PATCH', $path, $body, $headers, $signed),
             $this->context
         );
     }

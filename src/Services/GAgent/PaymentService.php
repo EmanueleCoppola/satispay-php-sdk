@@ -26,8 +26,8 @@ class PaymentService extends BaseService {
         $response = $this->context->http->post(
             '/g_agent/v1/pagopa/payments',
             $payload,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -50,8 +50,8 @@ class PaymentService extends BaseService {
         $response = $this->context->http->get(
             '/g_agent/v1/pagopa/payments/' . $id,
             [],
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -75,8 +75,8 @@ class PaymentService extends BaseService {
         $response = $this->context->http->patch(
             '/g_agent/v1/pagopa/payments/' . $id,
             $body,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -99,8 +99,8 @@ class PaymentService extends BaseService {
         $response = $this->context->http->get(
             '/g_agent/v1/pagopa/payments',
             $query,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();

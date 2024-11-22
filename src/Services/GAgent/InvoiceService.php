@@ -27,8 +27,8 @@ class InvoiceService extends BaseService {
         $response = $this->context->http->get(
             '/g_agent/v1/pagopa/invoices/' . $id,
             [],
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -51,8 +51,8 @@ class InvoiceService extends BaseService {
         $response = $this->context->http->get(
             '/g_agent/v1/pagopa/invoices',
             $query,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();

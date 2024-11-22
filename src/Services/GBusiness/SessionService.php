@@ -31,8 +31,8 @@ class SessionService extends BaseService {
         $response = $this->context->http->post(
             '/g_business/v1/sessions',
             $body,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions([
@@ -62,8 +62,8 @@ class SessionService extends BaseService {
         $response = $this->context->http->get(
             '/g_business/v1/sessions/' . $id,
             [],
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -90,8 +90,8 @@ class SessionService extends BaseService {
         $response = $this->context->http->patch(
             '/g_business/v1/sessions/' . $id,
             $body,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
@@ -117,8 +117,8 @@ class SessionService extends BaseService {
         $response = $this->context->http->post(
             '/g_business/v1/sessions/' . $id . '/events',
             $body,
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();

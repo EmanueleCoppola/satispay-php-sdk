@@ -122,8 +122,8 @@ class MQTTService extends BaseService {
         $response = $this->context->http->post(
             '/g_business/v1/mqtt_certificates',
             [],
-            true,
-            $headers
+            $headers,
+            true
         );
 
         $response->checkExceptions();
