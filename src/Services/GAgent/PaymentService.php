@@ -107,4 +107,23 @@ class PaymentService extends BaseService {
 
         return $response;
     }
+
+    /**
+     * Generates a random payment notice number.
+     *
+     * @return string The generated payment notice number string.
+     */
+    public function randomPaymentNoticeNumber() {
+        $length = 18;
+        $prefix = '1';
+
+        // these controls are intentionally left for potential future parametrization
+        if ($prefix) {
+            $length -= strlen($prefix);
+        }
+
+        $length = max($length, 0);
+
+        return $prefix . str_pad(mt_rand(0, pow(10, $length) - 1), $length, '0', STR_PAD_LEFT);
+    }
 }

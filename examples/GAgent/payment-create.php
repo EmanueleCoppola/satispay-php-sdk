@@ -19,8 +19,6 @@ $satispayGAgentClient = new SatispayGAgentClient([
     'sandbox' => true
 ]);
 
-$noticeNumber = str_pad(mt_rand(0, pow(10, 18) - 1), 18, '0', STR_PAD_LEFT); // random
-
 /**
  * |----------------|--------------------------------------------------------|--------|
  * | Exact tax code | Result                                                 | Code   |
@@ -47,10 +45,12 @@ $noticeNumber = str_pad(mt_rand(0, pow(10, 18) - 1), 18, '0', STR_PAD_LEFT); // 
  * |----------------|--------------------------------------------------------|--------|
  */
 
+$paymentNoticeNumber = $satispayGAgentClient->payments->randomPaymentNoticeNumber(); // just for testing
+
 $pagoPaPayment = $satispayGAgentClient->payments->create(
     [
         'request_type' => 'MANUAL',
-        'payment_notice_number' => $noticeNumber,
+        'payment_notice_number' => $paymentNoticeNumber,
         'domain_id' => '00000000000',
         'amount_unit' => 150.99 * 100, // 150,99€
     ],
