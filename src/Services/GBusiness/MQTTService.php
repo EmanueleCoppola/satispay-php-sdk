@@ -63,11 +63,12 @@ class MQTTService extends BaseService {
      */
     public function __construct(
         SatispayClient $context,
-        string $host = null,
+        string|null $host = null,
         int $port = 8883,
-        string $clientCertificate = null,
-        string $clientCertificateKey = null,
-        string $shopUid = null)
+        string|null $clientCertificate = null,
+        string|null $clientCertificateKey = null,
+        string|null $shopUid = null
+    )
     {
         parent::__construct($context);
 
