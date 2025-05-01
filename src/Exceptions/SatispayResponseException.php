@@ -22,9 +22,9 @@ class SatispayResponseException extends SatispayException {
      * BaseResponseException constructor.
      *
      * @param SatispayResponse $satispayResponse The SatispayResponse object representing the API response.
-     * @param string|null The message shown in the exception.
+     * @param array|string|null The message shown in the exception.
      */
-    public function __construct(SatispayResponse $satispayResponse, string|null $message = null)
+    public function __construct(SatispayResponse $satispayResponse, array|string|null $message = null)
     {
         $this->response = $satispayResponse;
         $this->code = $satispayResponse->getErrorCode();
