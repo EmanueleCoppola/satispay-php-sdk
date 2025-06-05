@@ -63,6 +63,6 @@ class SatispayResponseException extends SatispayException {
      */
     public function getEnv(): string
     {
-        return $this->response->getCID();
+        return $this->response->getEnv();
     }
 }
