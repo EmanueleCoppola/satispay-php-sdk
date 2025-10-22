@@ -3,6 +3,7 @@
 namespace EmanueleCoppola\Satispay\Services;
 
 use EmanueleCoppola\Satispay\Exceptions\SatispayException;
+use EmanueleCoppola\Satispay\SatispayClient;
 use EmanueleCoppola\Satispay\SatispayResponse;
 
 /**
